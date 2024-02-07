@@ -37,3 +37,62 @@ If you got your data off the web, make sure to note the retrieval date.
 
 List any references here. You should, at a minimum, list your data source.
 
+
+# Joining Datasets
+
+
+```{r}
+library(tidyverse)
+```
+```{r}
+Queer_books <- data_frame(Data_Science_I_Queer_Books_)
+```
+
+```{r}
+Goodread_top100 <- data_frame(goodreads_top100_from1980to2023_v2_1_)
+```
+
+```{r}
+Fiction <- data_frame(Queer_Books_Database_1_)
+```
+
+```{r}
+Non_fiction <- data_frame(Queer_Books_Database_1_)
+```
+
+
+```{r}
+Join_data <-  Queer_books %>% 
+  left_join(Goodread_top100, by = join_by("Title" == "Book"))
+```
+
+```{r}
+Inner_Data_join <-  Queer_books %>% 
+  inner_join(Goodread_top100, by = join_by("Title" == "Book"))
+```
+
+```{r}
+Queer_books %>% 
+  filter(Title == "Every Heart a Doorway")
+```
+
+```{r}
+Goodread_top100 %>% 
+  filter(Book == "Every Heart a Doorway")
+```
+
+```{r}
+Name_join <-  Queer_Books_Name_ %>% 
+  left_join(Goodread_top100, by = join_by("Title" == "Book"))
+```
+
+```{r}
+Fiction_join <-  Queer_Books_Name_ %>% 
+  left_join(Fiction, by = join_by("Title" == "Title"))
+```
+
+```{r}
+Non_iction_join <-  Queer_Books_Name_ %>% 
+  left_join(Non_fiction, by = join_by("Title" == "Title"))
+```
+
