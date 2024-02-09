@@ -43,6 +43,17 @@ List any references here. You should, at a minimum, list your data source.
 ```{r load-package}
 library(tidyverse)
 library(tibble)
+library(readxl)
+```
+
+```{r}
+Queer_Books_Database_1_ <- read_excel("data/Queer Books Database.xlsx", 
+    sheet = "Fiction Database")
+Queer_Books_Database <- read_excel("data/Queer Books Database.xlsx", 
+    sheet = "Non-Fiction Database")
+Queer_Books_Name_ <- read_excel("data/Queer_Books_Name .xlsx")
+goodreads_top100_from1980to2023_v2_1_ <- read_csv("data/goodreads_top100_from1980to2023_v2 (1).csv")
+book1_100k <- read_csv("data/book1-100k.csv")
 ```
 
 ```{r load-dataset}
@@ -50,7 +61,7 @@ fiction <- data_frame(Queer_Books_Database_1_)
 ```
 
 ```{r}
-Non_fiction <- data_frame(Queer_Books_Database)
+Non_fiction_book <- data_frame(Queer_Books_Database)
 ```
 
 # Joining Datasets
@@ -67,7 +78,7 @@ Queer_Fiction <- Queer_Books_Name_ %>%
 
 ```{r Name-Nonfiction}
 Queer_nonfiction <- Queer_Books_Name_ %>% 
-  left_join(Non_fiction, by = "Title")
+  left_join(Non_fiction_book, by = "Title")
 ```
 
 ```{r Join-all}
