@@ -28,7 +28,7 @@ View(book1_100k)
 # book1_100k <- read_csv("data/book1-100k.csv")
 library(readr)
 
-#file_names <- list.files(path = "../data/archive")
+file_names <- list.files(path = "../data/archive")
 length(file_names)
 
 library(plyr)
