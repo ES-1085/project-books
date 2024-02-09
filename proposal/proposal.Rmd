@@ -23,6 +23,21 @@ View(book1_100k)
 
 ```
 
+```{r load-archive-book-data}
+# bind_rows to combine data
+# book1_100k <- read_csv("data/book1-100k.csv")
+library(readr)
+
+#file_names <- list.files(path = "../data/archive")
+length(file_names)
+
+library(plyr)
+#dataset1 <- ldply(paste("../data/archive/", file_names[1:10], sep = ""), read_csv)
+#dataset2 <- ldply(paste("../data/archive/", file_names[11:23], sep = ""), read_csv)
+#full_dataset <- bind_rows(dataset1, dataset2)
+
+```
+
 
 
 ## 3. Ethics review
