@@ -92,6 +92,9 @@ Queer_Book1 <- Queer_Books_Name_ %>%
   left_join(book1_100k, by = c("Title" = "Name"))
 ```
 
+```{r}
+
+```
 
 
 
