@@ -15,7 +15,20 @@ library(dplyr)
 
 ## 1. Introduction
 
-General Research Question: 
+General Research Question: Examining the correlation between the number of Reviews a book receives and the Rating. Understanding a possible evolution of queer literature from the 1970s - 2024.
+
+Examining the general relation between reviews and rating from the Goodreads rating system. The data has been formulated from Goodreads lists and can be found here: 
+Queer_books-all 
+Kandi Grey Queer Lit Shelf 
+The variables include id (Id number of book from), Title, Author (Last name, First name), Additional Authors, ISBN, ISBN13, Average Rating ( 1- 5), Num Rating (Number of Ratings), Publisher, Binding (Paperback, Hardcover, eBook, ect), Number of Pages, Year Published, Original Publication Year, Exclusive Shelf (File name). 
+500 observations have been recorded. 
+Goodreads is a site and a tool used by people to categorise books they have written and read. Goodreads has different ways to help users categorise books; I created a ‘bookshelf’ to collect books from Lists that other Goodreads users supplied. I collected the top 500 from several Queer Literature lists to create the dataset we are using. Using this data, we can examine the correlation between the Average Rating and the Number of Reviews received, if the Binding method is related to the year published, if there is a common publisher for Queer literature. 
+Possible Further Study: Examining the relation to genre within Queer Literature. The differences across the queer spectrum.
+
+Vocab Definitions: 
+Queer: does not fall under the heterosexual/romantic spectrum, i.e. falls under the LGBTQIA+ spectrum
+Queer Literature Definition: literature either written by an author that identifies as queer, the themes of the book itself are queer related, either through character, theme, topic ect. 
+
 
 ## 2. Data
 
