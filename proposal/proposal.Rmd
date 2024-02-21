@@ -25,7 +25,7 @@ The variables include id (Id number of book from), Title, Author (Last name, Fir
 Goodreads is a site and a tool used by people to categorise books they have written and read. Goodreads has different ways to help users categorise books; I created a ‘bookshelf’ to collect books from Lists that other Goodreads users supplied. I collected the top 500 from several Queer Literature lists to create the dataset we are using. Using this data, we can examine the correlation between the Average Rating and the Number of Reviews received, if the Binding method is related to the year published, if there is a common publisher for Queer literature. 
 Possible Further Study: Examining the relation to genre within Queer Literature. The differences across the queer spectrum.
 
-Vocab Definitions: 
+Vocabulary Definitions: 
 Queer: does not fall under the heterosexual/romantic spectrum, i.e. falls under the LGBTQIA+ spectrum
 Queer Literature Definition: literature either written by an author that identifies as queer, the themes of the book itself are queer related, either through character, theme, topic ect. 
 
