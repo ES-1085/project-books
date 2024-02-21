@@ -6,142 +6,74 @@ Team name
 library(tidyverse)
 library(broom)
 library(readr)
+library(stringr)
+library(readxl)
+library(dplyr)
 ```
 
 ## 1. Introduction
 
+General Research Question:
+
 ## 2. Data
 
 ``` r
-# bind_rows to combine data
-# book1_100k <- read_csv("data/book1-100k.csv")
+queer_books_data <- read_excel("../data/queer-books_all.xlsx")
 ```
+
+Codebook
+
+id: Book number
+
+Title: Book title
+
+Author: Book author
+
+Author l-f: Book author last name and then first name
+
+Additional authors: Additional author beside the first author
+
+ISBN: Book identifier number
+
+ISBN 13: Book identifier number with 13-digits long
+
+Average Rating: Book average rating
+
+Num Rating: Total number of rating
+
+Publisher: Book publisher
+
+Binding: Book binding type
+
+Number of Pages: Number of pages of the book
+
+Year Published: Book’s year published (first and/or latest publication)
+
+Original Publication Year: First publication year
+
+Exclusive sheft:
 
 ``` r
-# bind_rows to combine data
-# book1_100k <- read_csv("data/book1-100k.csv")
-library(readr)
-
-file_names <- list.files(path = "../data/archive")
-length(file_names)
+glimpse(queer_books_data)
 ```
 
-    ## [1] 30
-
-``` r
-library(plyr)
-```
-
-    ## ------------------------------------------------------------------------------
-
-    ## You have loaded plyr after dplyr - this is likely to cause problems.
-    ## If you need functions from both plyr and dplyr, please load plyr first, then dplyr:
-    ## library(plyr); library(dplyr)
-
-    ## ------------------------------------------------------------------------------
-
-    ## 
-    ## Attaching package: 'plyr'
-
-    ## The following objects are masked from 'package:dplyr':
-    ## 
-    ##     arrange, count, desc, failwith, id, mutate, rename, summarise,
-    ##     summarize
-
-    ## The following object is masked from 'package:purrr':
-    ## 
-    ##     compact
-
-``` r
-dataset1 <- ldply(paste("../data/archive/", file_names[1:10], sep = ""), read_csv)
-```
-
-    ## Rows: 58292 Columns: 18
-
-    ## ── Column specification ────────────────────────────────────────────────────────
-    ## Delimiter: ","
-    ## chr (11): Name, RatingDist1, RatingDist4, RatingDistTotal, Publisher, Langua...
-    ## dbl  (7): Id, pagesNumber, PublishMonth, PublishDay, CountsOfReview, Publish...
-    ## 
-    ## ℹ Use `spec()` to retrieve the full column specification for this data.
-    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-    ## Rows: 39705 Columns: 20
-    ## ── Column specification ────────────────────────────────────────────────────────
-    ## Delimiter: ","
-    ## chr (12): Name, Authors, ISBN, Publisher, RatingDist5, RatingDist4, RatingDi...
-    ## dbl  (8): Id, Rating, PublishYear, PublishMonth, PublishDay, CountsOfReview,...
-    ## 
-    ## ℹ Use `spec()` to retrieve the full column specification for this data.
-    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-    ## Rows: 57046 Columns: 18
-    ## ── Column specification ────────────────────────────────────────────────────────
-    ## Delimiter: ","
-    ## chr (11): Authors, Publisher, Language, RatingDistTotal, RatingDist5, Rating...
-    ## dbl  (7): pagesNumber, Rating, CountsOfReview, PublishDay, PublishMonth, Id,...
-    ## 
-    ## ℹ Use `spec()` to retrieve the full column specification for this data.
-    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-    ## Rows: 41892 Columns: 20
-    ## ── Column specification ────────────────────────────────────────────────────────
-    ## Delimiter: ","
-    ## chr (12): Name, Authors, ISBN, Publisher, RatingDist5, RatingDist4, RatingDi...
-    ## dbl  (8): Id, Rating, PublishYear, PublishMonth, PublishDay, CountsOfReview,...
-    ## 
-    ## ℹ Use `spec()` to retrieve the full column specification for this data.
-    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-    ## Rows: 43622 Columns: 20
-    ## ── Column specification ────────────────────────────────────────────────────────
-    ## Delimiter: ","
-    ## chr (12): Name, Authors, ISBN, Publisher, RatingDist5, RatingDist4, RatingDi...
-    ## dbl  (8): Id, Rating, PublishYear, PublishMonth, PublishDay, CountsOfReview,...
-    ## 
-    ## ℹ Use `spec()` to retrieve the full column specification for this data.
-    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-    ## Rows: 38288 Columns: 20
-    ## ── Column specification ────────────────────────────────────────────────────────
-    ## Delimiter: ","
-    ## chr (12): Name, Authors, ISBN, Publisher, RatingDist5, RatingDist4, RatingDi...
-    ## dbl  (8): Id, Rating, PublishYear, PublishMonth, PublishDay, CountsOfReview,...
-    ## 
-    ## ℹ Use `spec()` to retrieve the full column specification for this data.
-    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-    ## Rows: 34759 Columns: 20
-    ## ── Column specification ────────────────────────────────────────────────────────
-    ## Delimiter: ","
-    ## chr (12): Name, Authors, ISBN, Publisher, RatingDist5, RatingDist4, RatingDi...
-    ## dbl  (8): Id, Rating, PublishYear, PublishMonth, PublishDay, CountsOfReview,...
-    ## 
-    ## ℹ Use `spec()` to retrieve the full column specification for this data.
-    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-    ## Rows: 33439 Columns: 20
-    ## ── Column specification ────────────────────────────────────────────────────────
-    ## Delimiter: ","
-    ## chr (12): Name, Authors, ISBN, Publisher, RatingDist5, RatingDist4, RatingDi...
-    ## dbl  (8): Id, Rating, PublishYear, PublishMonth, PublishDay, CountsOfReview,...
-    ## 
-    ## ℹ Use `spec()` to retrieve the full column specification for this data.
-    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-    ## Rows: 32986 Columns: 20
-    ## ── Column specification ────────────────────────────────────────────────────────
-    ## Delimiter: ","
-    ## chr (12): Name, Authors, ISBN, Publisher, RatingDist5, RatingDist4, RatingDi...
-    ## dbl  (8): Id, Rating, PublishYear, PublishMonth, PublishDay, CountsOfReview,...
-    ## 
-    ## ℹ Use `spec()` to retrieve the full column specification for this data.
-    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-    ## Rows: 32105 Columns: 19
-    ## ── Column specification ────────────────────────────────────────────────────────
-    ## Delimiter: ","
-    ## chr (12): Authors, Description, ISBN, Language, Name, Publisher, RatingDist1...
-    ## dbl  (7): CountsOfReview, Id, PublishDay, PublishMonth, PublishYear, Rating,...
-    ## 
-    ## ℹ Use `spec()` to retrieve the full column specification for this data.
-    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-
-``` r
-#dataset2 <- ldply(paste("../data/archive/", file_names[11:23], sep = ""), read_csv)
-#full_dataset <- bind_rows(dataset1, dataset2)
-```
+    ## Rows: 500
+    ## Columns: 15
+    ## $ id                          <dbl> 58155951, 61780641, 28165393, 34376899, 58…
+    ## $ Title                       <chr> "The Farthest Place", "A Tearful Dozen", "…
+    ## $ Author                      <chr> "E. Barnes", "Kieran Frank", "Alex Kost", …
+    ## $ `Author l-f`                <chr> "Barnes, E.", "Frank, Kieran", "Kost, Alex…
+    ## $ `Additional Authors`        <chr> NA, NA, NA, NA, NA, "Sara Parker", NA, NA,…
+    ## $ ISBN                        <chr> NA, NA, NA, NA, NA, "6.92545069E8", NA, "1…
+    ## $ ISBN13                      <dbl> NA, NA, NA, NA, NA, 9.780693e+12, NA, 9.78…
+    ## $ `Average Rating`            <dbl> 4.33, 4.33, 4.00, 4.00, 3.33, 4.43, 4.30, …
+    ## $ `Num Ratings`               <dbl> 3, 3, 4, 5, 6, 7, 10, 10, 11, 13, 15, 15, …
+    ## $ Publisher                   <chr> NA, "JMS Books LLC", NA, "Amazon Digital S…
+    ## $ Binding                     <chr> "Kindle Edition", "Kindle Edition", "ebook…
+    ## $ `Number of Pages`           <dbl> 218, 38, NA, 385, NA, 38, 261, 284, NA, 26…
+    ## $ `Year Published`            <dbl> 2021, 2022, 2016, 2017, 2021, 2015, 2020, …
+    ## $ `Original Publication Year` <dbl> NA, 2022, NA, 2017, NA, NA, NA, 2016, 2023…
+    ## $ `Exclusive Shelf`           <chr> "queer-books_all", "queer-books_all", "que…
 
 ## 3. Ethics review
 
