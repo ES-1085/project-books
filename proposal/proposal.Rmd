@@ -66,5 +66,16 @@ glimpse(queer_books_data)
 
 ## 4. Data analysis plan
 
+```{r}
+queer_books_data %>%
+  ggplot(aes( x = `Year Published`)) +
+  geom_bar()
+  
+```
 
+```{r}
+queer_books_data <- queer_books_data %>% 
+  mutate(republish_book = case_if(`Year Published` %in% `Original Publication Year`))
+  
+```
 
