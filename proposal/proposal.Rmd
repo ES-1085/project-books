@@ -75,7 +75,7 @@ queer_books_data %>%
 
 ```{r}
 queer_books_data <- queer_books_data %>% 
-  mutate(republish_book = case_if(`Year Published` %in% `Original Publication Year`))
+  mutate(republished_book = !is.na(`Year Published` %in% `Original Publication Year`))
   
 ```
 
