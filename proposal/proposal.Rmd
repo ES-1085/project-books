@@ -17,55 +17,6 @@ library(stringr)
 
 ## 2. Data
 
-```{r load-data}
-# bind_rows to combine data
-# book1_100k <- read_csv("data/book1-100k.csv")
-```
-
-```{r load-archive-book-data}
-# bind_rows to combine data
-# book1_100k <- read_csv("data/book1-100k.csv")
-library(readr)
-
-file_names <- list.files(path = "../data/archive")
-length(file_names)
-
-library(plyr)
-dataset1 <- ldply(paste("../data/archive/", file_names[1:10], sep = ""), read_csv)
-
-all_files <- paste("../data/archive/", file_names, sep = "")
-
-format_data <- function(filename){
-  my_file <- read_csv(file = filename)
-  my_file <- my_file %>%
-    select(Id, Name, Authors, Publisher, PublishYear, CountsOfReview, Rating) %>%
-    mutate(Name = str_to_lower(Name))
-}
-
-
-
-dataset1 <- map_dfr(all_files[1:15], format_data)
-
-dataset2 <- 
-  
-full_data <- rbind(dataset1, dataset2)
-
-dataset1 %>%
-  filter(str_detect(Name, pattern = "Invisible"))
-
-Queer_all_books <- Queer_all %>%
-  mutate(Title = str_to_lower(Title)) %>%
-  left_join(full_data, by = c("Title" = "Name"))
-
-write_csv(dataset1, file ="../data/dataset1.csv")
-
-dataset1 <- read_csv(
-#dataset2 <- ldply(paste("../data/archive/", file_names[11:23], sep = ""), read_csv)
-#full_dataset <- bind_rows(dataset1, dataset2)
-
-```
-
-
 
 ## 3. Ethics review
 
