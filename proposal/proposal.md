@@ -1,6 +1,6 @@
 Project proposal
 ================
-Team name
+Queer Lit
 
 ``` r
 library(tidyverse)
@@ -9,16 +9,51 @@ library(readr)
 library(stringr)
 library(readxl)
 library(dplyr)
+library(hexbin)
 ```
 
 ## 1. Introduction
 
-General Research Question:
+General Research Question: Examining the correlation between the number
+of Reviews a book receives and the Rating. Understanding a possible
+evolution of queer literature from the 1970s - 2024.
+
+Examining the general relation between reviews and rating from the
+Goodreads rating system. The data has been formulated from Goodreads
+lists and can be found here:
+
+Queer_books-data -
+<https://docs.google.com/spreadsheets/d/11cubO21f_MJb85e4IrpsaNH9Sm4-6B8-kL2CnUNGGdE/edit>  
+Kandi Grey Queer Lit Shelf -
+<https://www.goodreads.com/review/list/59261401-kandi-grey?shelf=queer-books_all>
+
+The variables include id (Id number of book from), Title, Author (Last
+name, First name), Additional Authors, ISBN, ISBN13, Average Rating ( 1-
+5), Num Rating (Number of Ratings), Publisher, Binding (Paperback,
+Hardcover, eBook, ect), Number of Pages, Year Published, Original
+Publication Year, Exclusive Shelf (File name). 500 observations have
+been recorded. Goodreads is a site and a tool used by people to
+categorise books they have written and read. Goodreads has different
+ways to help users categorise books; I created a ‘bookshelf’ to collect
+books from Lists that other Goodreads users supplied. I collected the
+top 500 from several Queer Literature lists to create the dataset we are
+using. Using this data, we can examine the correlation between the
+Average Rating and the Number of Reviews received, if the Binding method
+is related to the year published, if there is a common publisher for
+Queer literature. Possible Further Study: Examining the relation to
+genre within Queer Literature. The differences across the queer
+spectrum.
+
+Vocab Definitions: Queer: does not fall under the heterosexual/romantic
+spectrum, i.e. falls under the LGBTQIA+ spectrum Queer Literature
+Definition: literature either written by an author that identifies as
+queer, the themes of the book itself are queer related, either through
+character, theme, topic ect.
 
 ## 2. Data
 
 ``` r
-queer_books_data <- read_excel("../data/queer-books_all.xlsx")
+queer_books_data <- read_excel("../data/queer-books_data.xlsx")
 ```
 
 Codebook
@@ -59,22 +94,99 @@ glimpse(queer_books_data)
 
     ## Rows: 500
     ## Columns: 15
-    ## $ id                          <dbl> 58155951, 61780641, 28165393, 34376899, 58…
-    ## $ Title                       <chr> "The Farthest Place", "A Tearful Dozen", "…
-    ## $ Author                      <chr> "E. Barnes", "Kieran Frank", "Alex Kost", …
-    ## $ `Author l-f`                <chr> "Barnes, E.", "Frank, Kieran", "Kost, Alex…
-    ## $ `Additional Authors`        <chr> NA, NA, NA, NA, NA, "Sara Parker", NA, NA,…
-    ## $ ISBN                        <chr> NA, NA, NA, NA, NA, "6.92545069E8", NA, "1…
-    ## $ ISBN13                      <dbl> NA, NA, NA, NA, NA, 9.780693e+12, NA, 9.78…
-    ## $ `Average Rating`            <dbl> 4.33, 4.33, 4.00, 4.00, 3.33, 4.43, 4.30, …
-    ## $ `Num Ratings`               <dbl> 3, 3, 4, 5, 6, 7, 10, 10, 11, 13, 15, 15, …
-    ## $ Publisher                   <chr> NA, "JMS Books LLC", NA, "Amazon Digital S…
-    ## $ Binding                     <chr> "Kindle Edition", "Kindle Edition", "ebook…
-    ## $ `Number of Pages`           <dbl> 218, 38, NA, 385, NA, 38, 261, 284, NA, 26…
-    ## $ `Year Published`            <dbl> 2021, 2022, 2016, 2017, 2021, 2015, 2020, …
-    ## $ `Original Publication Year` <dbl> NA, 2022, NA, 2017, NA, NA, NA, 2016, 2023…
-    ## $ `Exclusive Shelf`           <chr> "queer-books_all", "queer-books_all", "que…
+    ## $ id                        <dbl> 19351, 96986, 48037, 5297, 323455, 53064, 53…
+    ## $ title                     <chr> "The Epic of Gilgamesh", "Plato Symposium (H…
+    ## $ author                    <chr> "Anonymous", "Plato", "J. Sheridan Le Fanu",…
+    ## $ `author_ l-f`             <chr> "Anonymous, Anonymous", "Plato, Plato", "Fan…
+    ## $ additional_authors        <chr> "N.K. Sandars, John Maier, Herbert Mason, Jo…
+    ## $ ISBN                      <chr> "1.41026286E8", "8.7220076E8", "8.09510839E8…
+    ## $ ISBN_13                   <dbl> 9.780141e+12, 9.780872e+12, 9.780810e+12, NA…
+    ## $ average_rating            <dbl> 3.72, 4.08, 3.85, 4.12, 4.22, 3.90, 3.70, 3.…
+    ## $ num_ratings               <dbl> 94267, 70111, 109904, 1510379, 20296, 16738,…
+    ## $ publisher                 <chr> "Penguin Books Limited", "Hackett Publishing…
+    ## $ binding                   <chr> "Paperback", "Paperback", "Paperback", "Pape…
+    ## $ number_of_pages           <dbl> 120, 109, 108, 272, 188, 384, 142, 194, 336,…
+    ## $ year_published            <dbl> 2006, 1989, 2000, 2004, 1993, 1999, 2005, 20…
+    ## $ original_publication_year <dbl> -1200, -380, 1872, 1890, 1897, 1911, 1912, 1…
+    ## $ exclusive_shelf           <chr> "queer-books_all", "queer-books_all", "queer…
 
 ## 3. Ethics review
 
 ## 4. Data analysis plan
+
+``` r
+queer_books_data %>% 
+  ggplot(aes( x = num_ratings, y = average_rating)) +
+  geom_hex() +
+  scale_fill_viridis_b() +
+  labs( title = "Correlation of average rating and number of rating",
+        subtitle = "Goodread data from 1974 - 2024",
+        x = "Number of rating",
+        y = "Average rating")
+```
+
+![](proposal_files/figure-gfm/corelation-rating-numrating-1.png)<!-- -->
+
+``` r
+queer_books_data <- queer_books_data %>% 
+  mutate(year_by_decade = case_when(year_published %in% c("1970","1971", "1972", "1973", "1974","1975", "1976", "1977", "1978", "1979") ~ "70s",
+                                    year_published %in% c("1980","1981", "1982","1983","1984","1985","1986","1987","1988","1989") ~ "80s",
+                                    year_published %in% c("1990","1991","1992","1993","1994","1995","1996","1997","1998","1999") ~ "90s",
+                                    year_published %in% c("2000","2001","2002","2003","2004","2005","2006","2007","2008","2009") ~ "2000s",
+                                    year_published %in% c("2010","2011","2012","2013","2014","2015","2016","2017","2018","2019") ~ "2010s",
+                                    year_published %in% c("2020","2021","2022","2023","2024") ~ "2020s"))
+```
+
+``` r
+queer_books_data <- queer_books_data %>% 
+  mutate(originalyear_by_decade = case_when(original_publication_year %in% c("1897","1890", "1872","-380","-1200") ~ "<1900s",
+                                            original_publication_year %in% c("1910","1911", "1912","1913","1914","1915","1916","1917","1918","1919") ~ "10s",
+                                            original_publication_year %in% c("1920","1921", "1922","1923","1924","1925","1926","1927","1928","1929") ~ "20s",
+                                            original_publication_year %in% c("1930","1931", "1932","1933","1934","1935","1936","1937","1938","1939") ~ "30s",
+                                            original_publication_year %in% c("1940","1941", "1942","1943","1944","1945","1946","1947","1948","1949") ~ "40s",
+                                            original_publication_year %in% c("1950","1951", "1952","1953","1954","1955","1956","1957","1958","1959") ~ "50s",
+                                            original_publication_year %in% c("1960","1961", "1962","1963","1964","1965","1966","1967","1968","1969") ~ "60s",
+                                            original_publication_year %in% c("1970","1971", "1972", "1973", "1974","1975", "1976", "1977", "1978", "1979") ~ "70s",
+                                    original_publication_year %in% c("1980","1981", "1982","1983","1984","1985","1986","1987","1988","1989") ~ "80s",
+                                    original_publication_year %in% c("1990","1991","1992","1993","1994","1995","1996","1997","1998","1999") ~ "90s",
+                                    original_publication_year %in% c("2000","2001","2002","2003","2004","2005","2006","2007","2008","2009") ~ "2000s",
+                                    original_publication_year %in% c("2010","2011","2012","2013","2014","2015","2016","2017","2018","2019") ~ "2010s",
+                                    original_publication_year %in% c("2020","2021","2022","2023","2024") ~ "2020s"))
+```
+
+``` r
+queer_books_data %>% 
+  ggplot(aes( x = year_by_decade)) +
+  geom_bar()
+```
+
+![](proposal_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
+
+``` r
+queer_books_data %>% 
+  ggplot(aes( x = originalyear_by_decade)) +
+  geom_bar()
+```
+
+![](proposal_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
+
+``` r
+queer_books_data %>%
+  ggplot(aes( x = year_published)) +
+  geom_bar()
+```
+
+    ## Warning: Removed 2 rows containing non-finite values (`stat_count()`).
+
+![](proposal_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+
+``` r
+year_published <- queer_books_data %>% 
+  select(title, year_published)
+
+original_published <- queer_books_data %>% 
+  select(title, original_publication_year)
+
+#republished_books <- year_published %>% 
+  #inner_join(original_published, by = "title", !)
+```

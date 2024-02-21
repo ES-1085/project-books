@@ -7,38 +7,6 @@ queer_books_data <- read_excel("../data/queer-books_all.xlsx")
 
 ```
 
-Codebook
-
-id: Book number
-
-Title: Book title
-
-Author: Book author
-
-Author l-f: Book author last name and then first name
-
-Additional authors: Additional author beside the first author
-
-ISBN: Book identifier number
-
-ISBN 13: Book identifier number with 13-digits long
-
-Average Rating: Book average rating 
-
-Num Rating: Total number of rating 
-
-Publisher: Book publisher
-
-Binding: Book binding type
-
-Number of Pages: Number of pages of the book
-
-Year Published: Book’s year published (first and/or latest publication)
-
-Original Publication Year: First publication year
-
-Exclusive sheft: 
-
 ```{r glimpse-data-frame}
 glimpse(queer_books_data)
 ```
@@ -63,7 +31,34 @@ $ republished_book            <lgl> TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TR
 
 ## name of data file
 
-- `variable1`: Description of variable 1
-- `variable2`: Description of variable 2
-- `variable3`: Description of variable 3
-- ...
+Codebook
+
+id: Book number
+
+title: Book title
+
+author: Book author
+
+author_l-f: Book author last name and then first name
+
+additional_authors: Additional author beside the first author
+
+ISBN: Book identifier number
+
+ISBN_13: Book identifier number with 13-digits long
+
+average_rating: Book average rating 
+
+num-rating: Total number of rating 
+
+publisher: Book publisher
+
+binding: Book binding type
+
+number_of_pages: Number of pages of the book
+
+year_published: Book’s year published (first and/or latest publication)
+
+original_publication_year: First publication year
+
+exclusive_shelf: file name

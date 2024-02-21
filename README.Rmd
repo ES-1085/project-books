@@ -1,6 +1,6 @@
 ---
 title: Project title
-author: by Books
+author: Queer Lit
 output: github_document
 ---
 
