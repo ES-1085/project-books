@@ -45,33 +45,33 @@ Codebook
 
 id: Book number
 
-Title: Book title
+title: Book title
 
-Author: Book author
+author: Book author
 
-Author l-f: Book author last name and then first name
+author l-f: Book author last name and then first name
 
-Additional authors: Additional author beside the first author
+additional_authors: Additional author beside the first author
 
 ISBN: Book identifier number
 
-ISBN 13: Book identifier number with 13-digits long
+ISBN_13: Book identifier number with 13-digits long
 
-Average Rating: Book average rating 
+average_rating: Book average rating 
 
-Num Rating: Total number of rating 
+num_rating: Total number of rating 
 
-Publisher: Book publisher
+publisher: Book publisher
 
-Binding: Book binding type
+binding: Book binding type
 
-Number of Pages: Number of pages of the book
+number_of_pages: Number of pages of the book
 
-Year Published: Book’s year published (first and/or latest publication)
+year_published: Book’s year published (first and/or latest publication)
 
-Original Publication Year: First publication year
+original_publication_year: First publication year
 
-Exclusive sheft: 
+exclusive-shelf:file name
 
 ```{r glimpse-data-frame}
 glimpse(queer_books_data)
@@ -121,13 +121,13 @@ queer_books_data <- queer_books_data %>%
 ```
 
 
-```{r}
+```{r decade-published-graph}
 queer_books_data %>% 
   ggplot(aes( x = year_by_decade)) +
   geom_bar()
 ```
 
-```{r}
+```{r first-published-gragh}
 queer_books_data %>% 
   ggplot(aes( x = originalyear_by_decade)) +
   geom_bar()
@@ -149,7 +149,37 @@ original_published <- queer_books_data %>%
   select(title, original_publication_year)
 
 #republished_books <- year_published %>% 
-  #inner_join(original_published, by = "title", !)
+ # inner_join(original_published, by = "title", !)
+```
+
+```{r}
+queer_books_data %>%
+  ggplot(aes(y = fct_infreq(binding))) +
+  geom_bar() +
+  labs(title = "Binding types's frequency",
+       x = NULL, y = NULL)
+```
+
+Look at which publisher has more number of book published. 
+
+```{r publisher-sum-books}
+queer_books_data %>% 
+  count(publisher) %>% 
+  arrange(desc(n))
+```
+
+Look at the books' title published by the top five of most frequent publishers. Then look at the correlation of these books' average ratings and number of ratting.
+
+```{r books-of-publisher-sum}
+Books_and_publishers <- queer_books_data %>% 
+  filter(publisher %in% c("Less Than Three Press", "Vintage", "Dreamspinner Press", "Little, Brown Books for Young Readers", "CreateSpace Independent Publishing Platform", "DAW", "Spectra", "Tor Books")) 
+
+ggplot(data = Books_and_publishers,
+       mapping = aes( y = publisher, fill = "average_rating")) +
+  geom_bar() +
+  labs(title = "Publishers and their books rating",
+       subtitle = "Correlation of books in top publishers and their average rating",
+       x = NULL, y = NULL)
 ```
 
 
