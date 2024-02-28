@@ -224,7 +224,7 @@ queer_books_genre %>%
 ```
 
 
-```{r}
+```{r missing-data}
 vis_miss(queer_books_genre)
 ```
 
