@@ -54,39 +54,45 @@ character, theme, topic ect.
 
 ``` r
 queer_books_data <- read_excel("../data/queer-books_data.xlsx")
+book_genre <- read_excel("../data/data_genre (1).xlsx")
 ```
+
+    ## New names:
+    ## • `` -> `...14`
+    ## • `` -> `...15`
+    ## • `` -> `...16`
 
 Codebook
 
 id: Book number
 
-Title: Book title
+title: Book title
 
-Author: Book author
+author: Book author
 
-Author l-f: Book author last name and then first name
+author l-f: Book author last name and then first name
 
-Additional authors: Additional author beside the first author
+additional_authors: Additional author beside the first author
 
 ISBN: Book identifier number
 
-ISBN 13: Book identifier number with 13-digits long
+ISBN_13: Book identifier number with 13-digits long
 
-Average Rating: Book average rating
+average_rating: Book average rating
 
-Num Rating: Total number of rating
+num_rating: Total number of rating
 
-Publisher: Book publisher
+publisher: Book publisher
 
-Binding: Book binding type
+binding: Book binding type
 
-Number of Pages: Number of pages of the book
+number_of_pages: Number of pages of the book
 
-Year Published: Book’s year published (first and/or latest publication)
+year_published: Book’s year published (first and/or latest publication)
 
-Original Publication Year: First publication year
+original_publication_year: First publication year
 
-Exclusive sheft:
+exclusive-shelf:file name
 
 ``` r
 glimpse(queer_books_data)
@@ -160,7 +166,7 @@ queer_books_data %>%
   geom_bar()
 ```
 
-![](proposal_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
+![](proposal_files/figure-gfm/decade-published-graph-1.png)<!-- -->
 
 ``` r
 queer_books_data %>% 
@@ -168,25 +174,112 @@ queer_books_data %>%
   geom_bar()
 ```
 
-![](proposal_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
+![](proposal_files/figure-gfm/first-published-gragh-1.png)<!-- -->
 
 ``` r
 queer_books_data %>%
-  ggplot(aes( x = year_published)) +
-  geom_bar()
+  ggplot(aes( x = year_published, fill = year_published)) +
+  geom_bar() +
+  scale_fill_viridis_d()
 ```
 
     ## Warning: Removed 2 rows containing non-finite values (`stat_count()`).
 
-![](proposal_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+    ## Warning: The following aesthetics were dropped during statistical transformation: fill
+    ## ℹ This can happen when ggplot fails to infer the correct grouping structure in
+    ##   the data.
+    ## ℹ Did you forget to specify a `group` aesthetic or to convert a numerical
+    ##   variable into a factor?
+
+![](proposal_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
 
 ``` r
-year_published <- queer_books_data %>% 
-  select(title, year_published)
+republished_book <- queer_books_data %>% 
+  filter(year_published != original_publication_year)
 
-original_published <- queer_books_data %>% 
-  select(title, original_publication_year)
-
-#republished_books <- year_published %>% 
-  #inner_join(original_published, by = "title", !)
+#ggplot(data = republished_book,
+ #      mapping = aes( x = year_published, y = original_published)) +
+  #geom_point() ##what would be a good geom to visualize this data. 
 ```
+
+``` r
+queer_books_data %>%
+  ggplot(aes(x = fct_rev(fct_infreq(binding)), fill = binding)) +
+  geom_bar() +
+  scale_fill_viridis_d() +
+  guides(fill = "none") +
+  coord_flip()+
+  labs(title = "Binding types's frequency",
+       x = NULL, y = NULL) 
+```
+
+![](proposal_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
+
+Look at which publisher has more number of book published.
+
+``` r
+queer_books_data %>% 
+  count(publisher) %>% 
+  arrange(desc(n))
+```
+
+    ## # A tibble: 285 × 2
+    ##    publisher                                       n
+    ##    <chr>                                       <int>
+    ##  1 <NA>                                           39
+    ##  2 Less Than Three Press                          14
+    ##  3 Vintage                                        12
+    ##  4 Dreamspinner Press                             10
+    ##  5 Little, Brown Books for Young Readers           8
+    ##  6 CreateSpace Independent Publishing Platform     7
+    ##  7 DAW                                             7
+    ##  8 Spectra                                         7
+    ##  9 Tor Books                                       7
+    ## 10 Ace                                             6
+    ## # ℹ 275 more rows
+
+Look at the books’ title published by the top five of most frequent
+publishers. Then look at the correlation of these books’ average ratings
+and number of ratting.
+
+``` r
+Books_and_publishers <- queer_books_data %>% 
+  filter(publisher %in% c("Less Than Three Press", "Vintage", "Dreamspinner Press", "Little, Brown Books for Young Readers", "CreateSpace Independent Publishing Platform", "DAW", "Spectra", "Tor Books")) 
+
+ggplot(data = Books_and_publishers,
+       mapping = aes( y = publisher, fill = "average_rating")) +
+  geom_bar() +
+  scale_fill_viridis_d() +
+  labs(title = "Publishers and their books rating",
+       subtitle = "Correlation of books in top publishers and their average rating",
+       x = NULL, y = NULL)
+```
+
+![](proposal_files/figure-gfm/books-of-publisher-sum-1.png)<!-- -->
+
+``` r
+book_genre <- book_genre %>% 
+  select("title", "genre_1", "genre_2", "genre_3", "genre_4", "genre_5")
+
+
+queer_books_genre <- queer_books_data %>% 
+  left_join(book_genre, by = c("title" = "title"))
+```
+
+    ## Warning in left_join(., book_genre, by = c(title = "title")): Detected an unexpected many-to-many relationship between `x` and `y`.
+    ## ℹ Row 248 of `x` matches multiple rows in `y`.
+    ## ℹ Row 33 of `y` matches multiple rows in `x`.
+    ## ℹ If a many-to-many relationship is expected, set `relationship =
+    ##   "many-to-many"` to silence this warning.
+
+``` r
+queer_books_genre %>% 
+  ggplot(aes(x = fct_rev(fct_infreq(genre_1)), fill = genre_1)) +
+  geom_bar() +
+  coord_flip() +
+  scale_fill_viridis_d() +
+  guides(fill = "none") +
+  labs( x = "genre")
+```
+
+![](proposal_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
