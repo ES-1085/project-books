@@ -15,7 +15,6 @@ library(hexbin)
 library(visdat)
 library(naniar)
 library(UpSetR)
-install.packages("visdat")
 ```
 
 ## 1. Introduction
@@ -225,9 +224,10 @@ queer_books_genre %>%
 ```
 
 
-```{r missing-data}
+```{r}
 vis_miss(queer_books_genre)
 ```
+
 
 
 

@@ -10,6 +10,9 @@ library(stringr)
 library(readxl)
 library(dplyr)
 library(hexbin)
+library(visdat)
+library(naniar)
+library(UpSetR)
 ```
 
 ## 1. Introduction
@@ -44,11 +47,11 @@ Queer literature. Possible Further Study: Examining the relation to
 genre within Queer Literature. The differences across the queer
 spectrum.
 
-Vocab Definitions: Queer: does not fall under the heterosexual/romantic
-spectrum, i.e. falls under the LGBTQIA+ spectrum Queer Literature
-Definition: literature either written by an author that identifies as
-queer, the themes of the book itself are queer related, either through
-character, theme, topic ect.
+Vocabulary Definitions: Queer: does not fall under the
+heterosexual/romantic spectrum, i.e. falls under the LGBTQIA+ spectrum
+Queer Literature Definition: literature either written by an author that
+identifies as queer, the themes of the book itself are queer related,
+either through character, theme, topic ect.
 
 ## 2. Data
 
@@ -117,6 +120,49 @@ glimpse(queer_books_data)
     ## $ exclusive_shelf           <chr> "queer-books_all", "queer-books_all", "queer…
 
 ## 3. Ethics review
+
+Limitations: The data is subjective, as it comes from Kandi’s personal
+Goodreads profile and contains personal bias. It also a selection of 500
+books from different queer book lists provided on Goodreads, which
+contains human bias for literature. The Goodreads system has a voting
+and review system that relies on human interaction, and therefore human
+subjectivity. The lack of information generated to fully comprehend the
+data is also limited in that there are variables not included within the
+data collected e.g. Country of origin, languages published in, gender of
+author - which would be significant to include when discussing the point
+of representation within literature. The are also limitations within the
+form of data collected: literature. The variables do not include a
+labeling system for Adult, New Adult, Young Adult, or Children. The
+genres given are broad sense of what the books contains and not
+specifics e.g. the label Fantasy includes Sci-fi and High Fantasy which
+don’t share many common literary aspects other than both being Fantasy.
+
+Positive Effects: There is a lack of presented queer data regarding
+literature and this data would be a stepping point for future projects
+to understand how representation is important within communities - the
+data covers a spectrum of queer representation but it only a sample.
+Some of the queer identities include: asexuality, aromantic, gay,
+lesbian, trans and more. The positive effect of this is the initiative
+to start, to foster curiosity and awareness of these subjects. If this
+project to were be expanded using full Goodreads lists (or attempting to
+categorical analyse every book ever uploaded) rather than a sample from
+Kandi’s personal profile, the impact would be useful in understanding
+the trends within literature over time, if there has been an increase,
+speculation on the relationship between queer authors and the works that
+they write, and the links to a more international community.
+
+Negative Effects: As the data is taken from a personal account, the
+negative repercussions (if there are any) would fall directly on Kandi
+due to personal connection. There is a possibility for
+misinterpretations within the real world due to the limitations placed
+on the data mentioned above.
+
+Minimizing Negative Impacts: Through communicating clearly what the data
+includes and does not include, how the personal bias affects the data
+collected, hopefully the points of misinterpretations and
+misconstructions can be minimized. This project is supposed to represent
+the possibilities of analysis that can be done within the literary world
+from a queer perspective, and the specifics within queer literature.
 
 ## 4. Data analysis plan
 
@@ -283,3 +329,9 @@ queer_books_genre %>%
 ```
 
 ![](proposal_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+
+``` r
+vis_miss(queer_books_genre)
+```
+
+![](proposal_files/figure-gfm/missing-data-1.png)<!-- -->
