@@ -181,9 +181,9 @@ queer_books_data %>%
 
 ``` r
 queer_books_data <- queer_books_data %>% 
-  mutate(year_by_decade = case_when(year_published %in% c("1970","1971", "1972", "1973", "1974","1975", "1976", "1977", "1978", "1979") ~ "70s",
-                                    year_published %in% c("1980","1981", "1982","1983","1984","1985","1986","1987","1988","1989") ~ "80s",
-                                    year_published %in% c("1990","1991","1992","1993","1994","1995","1996","1997","1998","1999") ~ "90s",
+  mutate(year_by_decade = case_when(year_published %in% c("1970","1971", "1972", "1973", "1974","1975", "1976", "1977", "1978", "1979") ~ "1970s",
+                                    year_published %in% c("1980","1981", "1982","1983","1984","1985","1986","1987","1988","1989") ~ "1980s",
+                                    year_published %in% c("1990","1991","1992","1993","1994","1995","1996","1997","1998","1999") ~ "1990s",
                                     year_published %in% c("2000","2001","2002","2003","2004","2005","2006","2007","2008","2009") ~ "2000s",
                                     year_published %in% c("2010","2011","2012","2013","2014","2015","2016","2017","2018","2019") ~ "2010s",
                                     year_published %in% c("2020","2021","2022","2023","2024") ~ "2020s"))
@@ -192,15 +192,15 @@ queer_books_data <- queer_books_data %>%
 ``` r
 queer_books_data <- queer_books_data %>% 
   mutate(originalyear_by_decade = case_when(original_publication_year %in% c("1897","1890", "1872","-380","-1200") ~ "<1900s",
-                                            original_publication_year %in% c("1910","1911", "1912","1913","1914","1915","1916","1917","1918","1919") ~ "10s",
-                                            original_publication_year %in% c("1920","1921", "1922","1923","1924","1925","1926","1927","1928","1929") ~ "20s",
-                                            original_publication_year %in% c("1930","1931", "1932","1933","1934","1935","1936","1937","1938","1939") ~ "30s",
-                                            original_publication_year %in% c("1940","1941", "1942","1943","1944","1945","1946","1947","1948","1949") ~ "40s",
-                                            original_publication_year %in% c("1950","1951", "1952","1953","1954","1955","1956","1957","1958","1959") ~ "50s",
-                                            original_publication_year %in% c("1960","1961", "1962","1963","1964","1965","1966","1967","1968","1969") ~ "60s",
-                                            original_publication_year %in% c("1970","1971", "1972", "1973", "1974","1975", "1976", "1977", "1978", "1979") ~ "70s",
-                                    original_publication_year %in% c("1980","1981", "1982","1983","1984","1985","1986","1987","1988","1989") ~ "80s",
-                                    original_publication_year %in% c("1990","1991","1992","1993","1994","1995","1996","1997","1998","1999") ~ "90s",
+                                            original_publication_year %in% c("1910","1911", "1912","1913","1914","1915","1916","1917","1918","1919") ~ "1910s",
+                                            original_publication_year %in% c("1920","1921", "1922","1923","1924","1925","1926","1927","1928","1929") ~ "1920s",
+                                            original_publication_year %in% c("1930","1931", "1932","1933","1934","1935","1936","1937","1938","1939") ~ "1930s",
+                                            original_publication_year %in% c("1940","1941", "1942","1943","1944","1945","1946","1947","1948","1949") ~ "1940s",
+                                            original_publication_year %in% c("1950","1951", "1952","1953","1954","1955","1956","1957","1958","1959") ~ "1950s",
+                                            original_publication_year %in% c("1960","1961", "1962","1963","1964","1965","1966","1967","1968","1969") ~ "1960s",
+                                            original_publication_year %in% c("1970","1971", "1972", "1973", "1974","1975", "1976", "1977", "1978", "1979") ~ "1970s",
+                                    original_publication_year %in% c("1980","1981", "1982","1983","1984","1985","1986","1987","1988","1989") ~ "1980s",
+                                    original_publication_year %in% c("1990","1991","1992","1993","1994","1995","1996","1997","1998","1999") ~ "1990s",
                                     original_publication_year %in% c("2000","2001","2002","2003","2004","2005","2006","2007","2008","2009") ~ "2000s",
                                     original_publication_year %in% c("2010","2011","2012","2013","2014","2015","2016","2017","2018","2019") ~ "2010s",
                                     original_publication_year %in% c("2020","2021","2022","2023","2024") ~ "2020s"))
@@ -335,3 +335,34 @@ vis_miss(queer_books_genre)
 ```
 
 ![](proposal_files/figure-gfm/missing-data-1.png)<!-- -->
+
+``` r
+queer_books_genre %>% 
+  as_shadow_upset() %>% 
+  upset()
+```
+
+![](proposal_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+
+``` r
+republished_book %>% 
+  ggplot(aes( x = year_published, y = average_rating)) +
+  geom_point()
+```
+
+![](proposal_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+
+``` r
+republished_book %>% 
+  ggplot(aes( x = original_publication_year, y = year_published, colors = average_rating)) +
+  geom_point() +
+  xlim(1850, 2024)
+```
+
+    ## Warning: Removed 2 rows containing missing values (`geom_point()`).
+
+![](proposal_files/figure-gfm/republished-books-rating-1.png)<!-- -->
+
+``` r
+# create a datafarm for average ratting spectrum. 
+```
