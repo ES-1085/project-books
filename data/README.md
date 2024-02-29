@@ -62,3 +62,42 @@ year_published: Book’s year published (first and/or latest publication)
 original_publication_year: First publication year
 
 exclusive_shelf: file name
+
+Codebook- Genres
+aromantic: book containing aromantic themes, characters, relationships
+
+asexual: book containing asexual and a-spectrum (demi-sexual, gray-sexual ect) themes, characters, relationships
+
+bisexual: book containing bisexual themes, characters, relationships
+
+dystopian: books including one of the following: dystopian, futuristic, science-fiction, speculative fiction, alien
+
+fantasy: books including the following: fantasy, High-Fantasy, Science-Fiction Fantasy, Magic, Paranormal, Urban Fantasy, Supernatural
+
+fiction: books that didn't contain any of the other genres, including Historical Fiction, poetry, short stories, Contemporary, Anthologies, Fiction Essays, Graphic Novels
+
+gay: books including themes of homosexuality pertaining to male and male relationships, characters identifying as gay
+
+horror: books including one of the following genres: Horror, Paranormal, Dark Fantasy, Supernatural, thriller, Gothic
+
+intersexual: books containing intersexual themes, characters, relationships
+
+lesbian: books including themes of homosexuality pertaining to female and female relationships, characters identifying as lesbian
+
+mystery-thriller: books including one of the following genres: mystery, thriller, crime, investigation, detective
+
+non-binary: books that don't fall within the gender binary of just male or female, and includes themes of:queer, genderfluid, trans, intersexual, agender, involves characters who identify as non-binary, could also invlove themes of gender discussion and gender exploration
+
+non-fiction: books that are not fictional
+
+polyamourous: books containing polyamoruous themes, characters, relationships
+
+queer: books that are categorized generally, include multiple facets of queerness, and are hard to define into a singular generalisation already considered in the other genres
+
+queer-platonic: books containing relationships that are not strictly sexual or romantic 
+
+religion: books containing religious themes, characters including Christianity, Buddhism, Muslim, Hindi or containing religious themes: demons, angels, deities, gods, old-religions, balasura, 
+
+romance: books that include romance 
+
+trans: books containing transgender and transexual themes, characters, relationships, discussions
