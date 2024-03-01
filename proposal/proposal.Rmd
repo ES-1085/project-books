@@ -299,15 +299,18 @@ queer_books_genre %>%
 
 ```{r pivot genre}
 book_genre %>% 
-  pivot_longer(cols = genre_1:genre_5, names_to = c("genre_1", "genre_2", "genre_3", "genre_4", "genre_5", "genre_6", "genre_7", "genre_8"), names_pattern = "(genre_?)(genre_?)(genre_?)(genre_?)(genre_?)", values_to = "all_genre", values_drop_na = TRUE) %>% 
-  select(!genre_1:genre_5)
- # ggplot(x = "genre")+
-  #geom_bar()
+  pivot_longer(cols = genre_1:genre_8, names_to = c("genre_1", "genre_2", "genre_3", "genre_4", "genre_5", "genre_6", "genre_7", "genre_8"), names_pattern = "(_)(_)(_)(_)(_)(_)(_)(_)", values_to = "all_genre", values_drop_na = TRUE) %>% 
+  select(!genre_1:genre_8) 
+
+book_genre <- mutate(book_genre, type = genre_all(c("genre_1", "genre_2", "genre_3", "genre_4", "genre_5", "genre_6", "genre_7", "genre_8")))
+#  ggplot(aes(x = "all_genre"))+
+#  geom_point()
 ```
 
 ```{r}
  book_genre %>% 
-  ggplot(aes(x = "average_rating", fill = "genre")) +
-  geom_bar()
+  pivot_wider(id_cols = c(genre_1, genre_2, genre_3, genre_4, genre_4, genre_5, genre_6, genre_7, genre_8),
+              names_from = genre_1,
+              values_from = (c(genre_1, genre_2, genre_3, genre_4, genre_4, genre_5, genre_6, genre_7, genre_8)))
 ```
 
