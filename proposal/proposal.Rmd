@@ -15,6 +15,11 @@ library(hexbin)
 library(visdat)
 library(naniar)
 library(UpSetR)
+library(ggplot2)
+library(hrbrthemes)
+library(tidyr)
+library(viridis)
+library(ggridges)
 ```
 
 ## 1. Introduction
@@ -279,5 +284,15 @@ republished_book %>%
 ```{r}
 queer_books_genre %>% 
   mutate(rating_categories = str_match(average_rating, "0:1")~"1")
+```
+
+
+```{r pivot genre}
+book_genre %>% 
+  select("title", "genre_1", "genre_2", "genre_3", "genre_4", "genre_5") %>% 
+  pivot_longer(cols = !title, names_to = "order", values_to = "genre", values_drop_na = TRUE) #%>% 
+#  ggplot(aes( x = year_published, y= "genre", fill = "genre")) 
+ # geom_bar(alpha = 0.7) +
+  #scale_fill_viridis_d()
 ```
 
