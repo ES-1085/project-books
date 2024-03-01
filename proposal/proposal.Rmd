@@ -300,9 +300,15 @@ queer_books_genre %>%
 ```{r pivot genre}
 book_genre %>% 
   select("title", "genre_1", "genre_2", "genre_3", "genre_4", "genre_5") %>% 
-  pivot_longer(cols = !title, names_to = "order", values_to = "genre", values_drop_na = TRUE) #%>% 
-#  ggplot(aes( x = year_published, y= "genre", fill = "genre")) 
- # geom_bar(alpha = 0.7) +
-  #scale_fill_viridis_d()
+  pivot_longer(cols = !title, names_to = "order", values_to = "genre", values_drop_na = TRUE) %>% 
+  mutate(genre_categories = pivot_longer(names_to = "order", values_to = "genre", values_drop_na = TRUE)) 
+ # ggplot(x = "genre")+
+  #geom_bar()
+```
+
+```{r}
+ book_genre %>% 
+  ggplot(aes(x = "average_rating", fill = "genre")) +
+  geom_bar()
 ```
 
