@@ -250,7 +250,7 @@ ggplot(data = Books_and_publishers,
 
 ```{r}
 book_genre <- book_genre %>% 
-  select("title", "genre_1", "genre_2", "genre_3", "genre_4", "genre_5")
+  select("title", "genre_1", "genre_2", "genre_3", "genre_4", "genre_5", "genre_6", "genre_7", "genre_8")
 
 
 queer_books_genre <- queer_books_data %>% 
@@ -299,9 +299,8 @@ queer_books_genre %>%
 
 ```{r pivot genre}
 book_genre %>% 
-  select("title", "genre_1", "genre_2", "genre_3", "genre_4", "genre_5") %>% 
-  pivot_longer(cols = !title, names_to = "order", values_to = "genre", values_drop_na = TRUE) %>% 
-  mutate(genre_categories = pivot_longer(names_to = "order", values_to = "genre", values_drop_na = TRUE)) 
+  pivot_longer(cols = genre_1:genre_5, names_to = c("genre_1", "genre_2", "genre_3", "genre_4", "genre_5", "genre_6", "genre_7", "genre_8"), names_pattern = "(genre_?)(genre_?)(genre_?)(genre_?)(genre_?)", values_to = "all_genre", values_drop_na = TRUE) %>% 
+  select(!genre_1:genre_5)
  # ggplot(x = "genre")+
   #geom_bar()
 ```
