@@ -126,14 +126,24 @@ Top_ten_ave <- queer_books_data %>%
   arrange(desc(average_rating)) %>% 
   slice(1:10)
 
+bottom_ten_ave <- queer_books_data %>% 
+  select(title, average_rating) %>% 
+  arrange((average_rating)) %>% 
+  slice(1:10)
+
 Top_ten_num <- queer_books_data %>% 
   select(title, num_ratings) %>% 
   arrange(desc(num_ratings)) %>% 
   slice(1:10)
 
-Top_ten_ave %>% 
+bottom_ten_ave %>% 
   left_join(Top_ten_num, by = "title")
 
+```
+
+```{r}
+Top_ten_ave %>% 
+  left_join(Top_ten_num, by = "title")
 ```
 
 
