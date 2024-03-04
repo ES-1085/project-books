@@ -1,7 +1,9 @@
 ---
 title: "Project proposal"
 author: "Queer Lit"
-output: github_document
+output: Github_document
+editor_options: 
+  chunk_output_type: inline
 ---
 
 ```{r load-packages, message = FALSE}
@@ -218,8 +220,6 @@ queer_books_data %>%
   ggplot(aes(x =year_published, fill = binding)) +
   geom_bar() +
   scale_fill_viridis_d() +
-  guides(fill = "none") +
-  coord_flip() +
   labs(title = "Binding types's frequency",
        x = NULL, y = NULL) 
 ```
@@ -283,28 +283,33 @@ republished_book %>%
 ```
 
 
+
+```{r rating-categories}
+queer_books_genre <- queer_books_genre %>% 
+  mutate(rating_categories = case_when(str_starts(average_rating, pattern = "2")~"2",
+                                       str_starts(average_rating, pattern = "3")~"3",
+                                       str_starts(average_rating, pattern = "4")~"4",
+                                       str_starts(average_rating, pattern = "5")~"5"))
+```
+
+
 ```{r republished-books-rating}
 republished_book %>% 
-  ggplot(aes( x = original_publication_year, y = year_published, colors = average_rating)) +
+  ggplot(aes( x = original_publication_year, y = year_published, 
+              colors = "rating_categories")) +
   geom_point() +
   xlim(1850, 2024)
 # create a datafarm for average ratting spectrum. 
 ```
-
-```{r}
-queer_books_genre %>% 
-  mutate(rating_categories = str_match(average_rating, "0:1")~"1")
-```
-
 
 ```{r pivot genre}
 book_genre %>% 
   pivot_longer(cols = genre_1:genre_8, names_to = c("genre_1", "genre_2", "genre_3", "genre_4", "genre_5", "genre_6", "genre_7", "genre_8"), names_pattern = "(_)(_)(_)(_)(_)(_)(_)(_)", values_to = "all_genre", values_drop_na = TRUE) %>% 
   select(!genre_1:genre_8) 
 
-book_genre <- mutate(book_genre, type = genre_all(c("genre_1", "genre_2", "genre_3", "genre_4", "genre_5", "genre_6", "genre_7", "genre_8")))
-#  ggplot(aes(x = "all_genre"))+
-#  geom_point()
+#book_genre <- mutate(book_genre, type = genre_all(c("genre_1", "genre_2", "genre_3", "genre_4", "genre_5", "genre_6", "genre_7", "genre_8")))
+  ggplot(aes(x = "all_genre"))+
+  geom_point()
 ```
 
 ```{r}
