@@ -309,6 +309,8 @@ book_genre %>%
  book_genre %>% 
   ggplot(aes(x = "average_rating", fill = "genre")) +
   geom_bar()
+
+
 ```
 
 
