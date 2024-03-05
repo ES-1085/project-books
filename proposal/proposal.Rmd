@@ -110,6 +110,8 @@ This project is supposed to represent the possibilities of analysis that can be 
 
 ## 4. Data analysis plan
 
+#### Correlation between number of rating and average rating
+
 ```{r corelation-rating-numrating}
 queer_books_data %>% 
   ggplot(aes( x = num_ratings, y = average_rating)) +
@@ -120,6 +122,8 @@ queer_books_data %>%
         x = "Number of rating",
         y = "Average rating")
 ```
+
+#### Check correltion of top rating and number of rating
 
 check whether the high average rating has high number of rating. 
 Checked: there is no overlap between the average rating and the number of rating. 
@@ -149,6 +153,8 @@ Top_ten_ave %>%
   left_join(Top_ten_num, by = "title")
 ```
 
+#### Mutate year to decade
+
 ```{r published-dacade}
 queer_books_data <- queer_books_data %>% 
   mutate(year_by_decade = case_when(year_published %in% c("1970","1971", "1972", "1973", "1974","1975", "1976", "1977", "1978", "1979") ~ "1970s",
@@ -176,6 +182,7 @@ queer_books_data <- queer_books_data %>%
                                     original_publication_year %in% c("2020","2021","2022","2023","2024") ~ "2020s"))
 ```
 
+#### Visualise second and original publication by decade
 
 ```{r decade-published-graph}
 queer_books_data %>% 
@@ -188,7 +195,7 @@ queer_books_data %>%
   ggplot(aes( x = originalyear_by_decade, fill = average_rating)) +
   geom_bar()
 ```
-
+#### Visualise the change of binding's types by decade
 
 ```{r change-binding-dacade}
 queer_books_data %>%
@@ -199,6 +206,8 @@ queer_books_data %>%
        x = NULL, y = NULL) 
 ```
 
+#### Visualise the change of binding's types by year
+
 ```{r change-binding-years}
 queer_books_data %>%
   ggplot(aes( x = year_published, fill = binding)) +
@@ -206,6 +215,7 @@ queer_books_data %>%
   scale_fill_viridis_d()
 ```
 
+#### Filter book that got republished 
 
 ```{r republished-book}
 republished_book <- queer_books_data %>% 
@@ -216,6 +226,7 @@ republished_book <- queer_books_data %>%
   #geom_point() ##what would be a good geom to visualize this data. 
 ```
 
+#### Check top publishers
 
 Look at which publisher has more number of book published. 
 
@@ -224,6 +235,8 @@ queer_books_data %>%
   count(publisher) %>% 
   arrange(desc(n))
 ```
+
+#### Merge genre to primary dataset
 
 Try to make a similar graph for all the genre
 ```{r book-genre-join}
@@ -242,6 +255,8 @@ queer_books_genre %>%
   labs( x = "genre")
 ```
 
+#### Categorise the average rating
+
 ```{r rating-categories}
 queer_books_genre <- queer_books_genre %>% 
   mutate(rating_categories = case_when(str_starts(average_rating, pattern = "2")~"2",
@@ -249,6 +264,8 @@ queer_books_genre <- queer_books_genre %>%
                                        str_starts(average_rating, pattern = "4")~"4",
                                        str_starts(average_rating, pattern = "5")~"5"))
 ```
+
+#### Compare the books' rating of the top publishers
 
 Look at the books' title published by the top five of most frequent publishers. Then look at the correlation of these books' average ratings and number of ratting.
 
@@ -266,6 +283,7 @@ ggplot(data = Books_and_publishers,
   guides(fill = "none")
 ```
 
+#### Check missing data
 
 ```{r missing-data}
 vis_miss(queer_books_genre)
@@ -277,6 +295,7 @@ queer_books_genre %>%
   upset()
 ```
 
+#### Genres' average rating
 
 ```{r genre-rating}
 all_book_genre <- queer_books_genre %>% 
@@ -293,6 +312,8 @@ all_book_genre %>%
        fill = "average rating")
 ```
 
+#### Books' genre in each top publishers
+
 ```{r top-publishers-genre}
 books_publisher_genre <- Books_and_publishers %>% 
    pivot_longer(cols = genre_1:genre_8, names_to = c("genre_1", "genre_2", "genre_3", "genre_4", "genre_5", "genre_6", "genre_7", "genre_8"), names_pattern = "(_)(_)(_)(_)(_)(_)(_)(_)", values_to = "all_genre", values_drop_na = TRUE) %>% 
@@ -308,6 +329,7 @@ books_publisher_genre %>%
        fill = "publishers")
 ```
 
+#### Books' genre in each top publishers by rating
 
 ```{r top-publisher-genre-rating}
 books_publisher_genre %>% 
@@ -320,6 +342,8 @@ books_publisher_genre %>%
        x = "genre",
        fill = "average rating")
 ```
+
+#### Visualise books' average rating and number of rating in each year by genre (only top publishers's books)
 
 ```{r genre-toppublish-rating}
 books_publisher_genre %>% 
@@ -334,6 +358,8 @@ books_publisher_genre %>%
        color = "average rating",
        size = "number of rating")
 ```
+
+#### Visualise books' average rating and number of rating in each year by genre (all the books)
 
 ```{r genre-rating-year}
 all_book_genre %>% 
