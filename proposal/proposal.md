@@ -13,6 +13,11 @@ library(hexbin)
 library(visdat)
 library(naniar)
 library(UpSetR)
+library(ggplot2)
+library(hrbrthemes)
+library(tidyr)
+library(viridis)
+library(ggridges)
 ```
 
 ## 1. Introduction
@@ -59,11 +64,6 @@ either through character, theme, topic ect.
 queer_books_data <- read_excel("../data/queer-books_data.xlsx")
 book_genre <- read_excel("../data/data_genre (1).xlsx")
 ```
-
-    ## New names:
-    ## • `` -> `...14`
-    ## • `` -> `...15`
-    ## • `` -> `...16`
 
 Codebook
 
@@ -179,6 +179,63 @@ queer_books_data %>%
 
 ![](proposal_files/figure-gfm/corelation-rating-numrating-1.png)<!-- -->
 
+check whether the high average rating has high number of rating.
+Checked: there is no overlap between the average rating and the number
+of rating.
+
+``` r
+Top_ten_ave <- queer_books_data %>% 
+  select(title, average_rating) %>% 
+  arrange(desc(average_rating)) %>% 
+  slice(1:10)
+
+bottom_ten_ave <- queer_books_data %>% 
+  select(title, average_rating) %>% 
+  arrange((average_rating)) %>% 
+  slice(1:10)
+
+Top_ten_num <- queer_books_data %>% 
+  select(title, num_ratings) %>% 
+  arrange(desc(num_ratings)) %>% 
+  slice(1:10)
+
+bottom_ten_ave %>% 
+  left_join(Top_ten_num, by = "title")
+```
+
+    ## # A tibble: 10 × 3
+    ##    title                                            average_rating num_ratings
+    ##    <chr>                                                     <dbl>       <dbl>
+    ##  1 The Loveless Princess                                      2.8           NA
+    ##  2 This Song Is (Not) for You                                 3.04          NA
+    ##  3 We Awaken                                                  3.16          NA
+    ##  4 Ace of Hearts                                              3.18          NA
+    ##  5 That Inevitable Victorian Thing                            3.21          NA
+    ##  6 In My Dreams (Aces in Love #1)                             3.25          NA
+    ##  7 The Once and Future Queen, Vol. 1: Opening Moves           3.26          NA
+    ##  8 Before I Let Go                                            3.33          NA
+    ##  9 Overleveled, Underloved                                    3.33          NA
+    ## 10 Coffee Cake (Coffee Cake, #1)                              3.34          NA
+
+``` r
+Top_ten_ave %>% 
+  left_join(Top_ten_num, by = "title")
+```
+
+    ## # A tibble: 10 × 3
+    ##    title                                              average_rating num_ratings
+    ##    <chr>                                                       <dbl>       <dbl>
+    ##  1 The Seemingly Impossible Love Life of Amanda Dean            5             NA
+    ##  2 No FREE Attention: How Women use The Possibility …           4.91          NA
+    ##  3 To a Darker Shore                                            4.79          NA
+    ##  4 Nonbinary                                                    4.78          NA
+    ##  5 The Midnight Strider (The Chronomancer Chronicles…           4.76          NA
+    ##  6 Thirteenth                                                   4.74          NA
+    ##  7 The Blue Codex (The Blue Codex, #1)                          4.7           NA
+    ##  8 Earthflown                                                   4.65          NA
+    ##  9 Heartstopper: Volume Four (Heartstopper, #4)                 4.61          NA
+    ## 10 Crooked Kingdom (Six of Crows, #2)                           4.6           NA
+
 ``` r
 queer_books_data <- queer_books_data %>% 
   mutate(year_by_decade = case_when(year_published %in% c("1970","1971", "1972", "1973", "1974","1975", "1976", "1977", "1978", "1979") ~ "1970s",
@@ -216,20 +273,9 @@ queer_books_data %>%
 
 ``` r
 queer_books_data %>% 
-  ggplot(aes( x = originalyear_by_decade)) +
+  ggplot(aes( x = originalyear_by_decade, fill = average_rating)) +
   geom_bar()
 ```
-
-![](proposal_files/figure-gfm/first-published-gragh-1.png)<!-- -->
-
-``` r
-queer_books_data %>%
-  ggplot(aes( x = year_published, fill = year_published)) +
-  geom_bar() +
-  scale_fill_viridis_d()
-```
-
-    ## Warning: Removed 2 rows containing non-finite values (`stat_count()`).
 
     ## Warning: The following aesthetics were dropped during statistical transformation: fill
     ## ℹ This can happen when ggplot fails to infer the correct grouping structure in
@@ -237,7 +283,29 @@ queer_books_data %>%
     ## ℹ Did you forget to specify a `group` aesthetic or to convert a numerical
     ##   variable into a factor?
 
-![](proposal_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
+![](proposal_files/figure-gfm/first-published-gragh-1.png)<!-- -->
+
+``` r
+queer_books_data %>%
+  ggplot(aes( x = year_by_decade, fill = binding)) +
+  geom_bar(alpha = 0.7) +
+  scale_fill_viridis_d() +
+  labs(title = "Binding types's frequency",
+       x = NULL, y = NULL) 
+```
+
+![](proposal_files/figure-gfm/change-binding-dacade-1.png)<!-- -->
+
+``` r
+queer_books_data %>%
+  ggplot(aes( x = year_published, fill = binding)) +
+  geom_bar(alpha = 0.7) +
+  scale_fill_viridis_d()
+```
+
+    ## Warning: Removed 2 rows containing non-finite values (`stat_count()`).
+
+![](proposal_files/figure-gfm/change-binding-years-1.png)<!-- -->
 
 ``` r
 republished_book <- queer_books_data %>% 
@@ -247,19 +315,6 @@ republished_book <- queer_books_data %>%
  #      mapping = aes( x = year_published, y = original_published)) +
   #geom_point() ##what would be a good geom to visualize this data. 
 ```
-
-``` r
-queer_books_data %>%
-  ggplot(aes(x = fct_rev(fct_infreq(binding)), fill = binding)) +
-  geom_bar() +
-  scale_fill_viridis_d() +
-  guides(fill = "none") +
-  coord_flip()+
-  labs(title = "Binding types's frequency",
-       x = NULL, y = NULL) 
-```
-
-![](proposal_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
 
 Look at which publisher has more number of book published.
 
@@ -284,28 +339,11 @@ queer_books_data %>%
     ## 10 Ace                                             6
     ## # ℹ 275 more rows
 
-Look at the books’ title published by the top five of most frequent
-publishers. Then look at the correlation of these books’ average ratings
-and number of ratting.
-
-``` r
-Books_and_publishers <- queer_books_data %>% 
-  filter(publisher %in% c("Less Than Three Press", "Vintage", "Dreamspinner Press", "Little, Brown Books for Young Readers", "CreateSpace Independent Publishing Platform", "DAW", "Spectra", "Tor Books")) 
-
-ggplot(data = Books_and_publishers,
-       mapping = aes( y = publisher, fill = "average_rating")) +
-  geom_bar() +
-  scale_fill_viridis_d() +
-  labs(title = "Publishers and their books rating",
-       subtitle = "Correlation of books in top publishers and their average rating",
-       x = NULL, y = NULL)
-```
-
-![](proposal_files/figure-gfm/books-of-publisher-sum-1.png)<!-- -->
+Try to make a similar graph for all the genre
 
 ``` r
 book_genre <- book_genre %>% 
-  select("title", "genre_1", "genre_2", "genre_3", "genre_4", "genre_5")
+  select("title", "genre_1", "genre_2", "genre_3", "genre_4", "genre_5", "genre_6", "genre_7", "genre_8")
 
 
 queer_books_genre <- queer_books_data %>% 
@@ -320,15 +358,42 @@ queer_books_genre <- queer_books_data %>%
 
 ``` r
 queer_books_genre %>% 
-  ggplot(aes(x = fct_rev(fct_infreq(genre_1)), fill = genre_1)) +
-  geom_bar() +
+  ggplot(aes(x = fct_rev(fct_infreq(genre_1)), fill = binding)) +
+  geom_bar(alpha=0.7) +
   coord_flip() +
   scale_fill_viridis_d() +
-  guides(fill = "none") +
   labs( x = "genre")
 ```
 
-![](proposal_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+![](proposal_files/figure-gfm/book-genre-join-1.png)<!-- -->
+
+``` r
+queer_books_genre <- queer_books_genre %>% 
+  mutate(rating_categories = case_when(str_starts(average_rating, pattern = "2")~"2",
+                                       str_starts(average_rating, pattern = "3")~"3",
+                                       str_starts(average_rating, pattern = "4")~"4",
+                                       str_starts(average_rating, pattern = "5")~"5"))
+```
+
+Look at the books’ title published by the top five of most frequent
+publishers. Then look at the correlation of these books’ average ratings
+and number of ratting.
+
+``` r
+Books_and_publishers <- queer_books_genre %>% 
+  filter(publisher %in% c("Less Than Three Press", "Vintage", "Dreamspinner Press", "Little, Brown Books for Young Readers", "CreateSpace Independent Publishing Platform", "DAW", "Spectra", "Tor Books", "NA")) 
+
+ggplot(data = Books_and_publishers,
+       mapping = aes( y = fct_rev(fct_infreq(publisher)), fill = "rating_categories")) +
+  geom_bar() +
+  scale_fill_viridis_d() +
+  labs(title = "Publishers and their books rating",
+       subtitle = "Correlation of books in top publishers and their average rating",
+       x = NULL, y = NULL) +
+  guides(fill = "none")
+```
+
+![](proposal_files/figure-gfm/books-of-publisher-sum-1.png)<!-- -->
 
 ``` r
 vis_miss(queer_books_genre)
@@ -342,27 +407,120 @@ queer_books_genre %>%
   upset()
 ```
 
-![](proposal_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+![](proposal_files/figure-gfm/check-na-shadow-1.png)<!-- -->
 
 ``` r
-republished_book %>% 
-  ggplot(aes( x = year_published, y = average_rating)) +
-  geom_point()
+all_book_genre <- queer_books_genre %>% 
+  pivot_longer(cols = genre_1:genre_8, names_to = c("genre_1", "genre_2", "genre_3", "genre_4", "genre_5", "genre_6", "genre_7", "genre_8"), names_pattern = "(_)(_)(_)(_)(_)(_)(_)(_)", values_to = "all_genre", values_drop_na = TRUE) %>% 
+  select(!genre_1:genre_8) 
+
+all_book_genre %>% 
+  ggplot(aes(x = fct_rev(fct_infreq(all_genre)), fill = rating_categories)) +
+  geom_bar() +
+  coord_flip() +
+  scale_fill_viridis_d() +
+  labs(title = "Genres' average rating",
+       x = "genre",
+       fill = "average rating")
 ```
 
-![](proposal_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+![](proposal_files/figure-gfm/genre-rating-1.png)<!-- -->
 
 ``` r
-republished_book %>% 
-  ggplot(aes( x = original_publication_year, y = year_published, colors = average_rating)) +
-  geom_point() +
-  xlim(1850, 2024)
+books_publisher_genre <- Books_and_publishers %>% 
+   pivot_longer(cols = genre_1:genre_8, names_to = c("genre_1", "genre_2", "genre_3", "genre_4", "genre_5", "genre_6", "genre_7", "genre_8"), names_pattern = "(_)(_)(_)(_)(_)(_)(_)(_)", values_to = "all_genre", values_drop_na = TRUE) %>% 
+  select(!genre_1:genre_8) 
+
+books_publisher_genre %>% 
+  ggplot(aes(x = fct_rev(fct_infreq(all_genre)), fill = publisher)) +
+  geom_bar() +
+  coord_flip() +
+  scale_fill_viridis_d() +
+  labs(title = "Books' genre of top publishers",
+       x = "genre",
+       fill = "publishers")
 ```
 
-    ## Warning: Removed 2 rows containing missing values (`geom_point()`).
-
-![](proposal_files/figure-gfm/republished-books-rating-1.png)<!-- -->
+![](proposal_files/figure-gfm/top-publishers-genre-1.png)<!-- -->
 
 ``` r
-# create a datafarm for average ratting spectrum. 
+books_publisher_genre %>% 
+  ggplot(aes(x = fct_rev(fct_infreq(all_genre)), fill = publisher)) +
+  geom_bar() +
+  coord_flip() +
+  scale_fill_viridis_d() +
+  facet_wrap(~rating_categories) +
+  labs(title = "Books' genre and average rating of top publisher",
+       x = "genre",
+       fill = "average rating")
+```
+
+![](proposal_files/figure-gfm/top-publisher-genre-rating-1.png)<!-- -->
+
+``` r
+books_publisher_genre %>% 
+  ggplot(aes(x = all_genre, y = year_published, size = num_ratings, fill = rating_categories)) +
+  geom_point(alpha=0.7, shape = 21, color = "black") +
+  coord_flip() +
+  scale_fill_viridis_d() +
+  theme_ipsum() +
+  labs(title = "Books' genre and average rating of top publisher",
+       x = "genre",
+       y = "publication year",
+       color = "average rating",
+       size = "number of rating")
+```
+
+![](proposal_files/figure-gfm/genre-toppublish-rating-1.png)<!-- -->
+
+``` r
+all_book_genre %>% 
+  ggplot(aes(x = all_genre, y = year_published, size = num_ratings, fill = rating_categories)) +
+  geom_point(alpha=0.7, shape = 21, color = "black") +
+  coord_flip() +
+  scale_fill_viridis_d() +
+  theme_ipsum() +
+  labs(title = "Books' genre and average rating by year",
+       x = "genre",
+       y = "publication year",
+       fill = "average rating",
+       size = "number of rating")
+```
+
+    ## Warning: Removed 5 rows containing missing values (`geom_point()`).
+
+![](proposal_files/figure-gfm/genre-rating-year-1.png)<!-- -->
+
+``` r
+book_genre %>% 
+  pivot_longer(cols = genre_1:genre_8, names_to = c("genre_1", "genre_2", "genre_3", "genre_4", "genre_5", "genre_6", "genre_7", "genre_8"), names_pattern = "(_)(_)(_)(_)(_)(_)(_)(_)", values_to = "all_genre", values_drop_na = TRUE) %>% 
+  select(!genre_1:genre_8) 
+```
+
+    ## # A tibble: 1,664 × 2
+    ##    title                       all_genre
+    ##    <chr>                       <chr>    
+    ##  1 Welcome to Your Afterlife   aromantic
+    ##  2 Welcome to Your Afterlife   asexual  
+    ##  3 Welcome to Your Afterlife   bisexual 
+    ##  4 Welcome to Your Afterlife   fantasy  
+    ##  5 Welcome to Your Afterlife   romance  
+    ##  6 Hazel's Theory of Evolution aromantic
+    ##  7 Hazel's Theory of Evolution asexual  
+    ##  8 Hazel's Theory of Evolution fiction  
+    ##  9 The Bone People             aromantic
+    ## 10 The Bone People             asexual  
+    ## # ℹ 1,654 more rows
+
+``` r
+#book_genre <- mutate(book_genre, type = genre_all(c("genre_1", "genre_2", "genre_3", "genre_4", "genre_5", "genre_6", "genre_7", "genre_8")))
+#  ggplot(aes(x = "all_genre"))+
+#  geom_point()
+```
+
+``` r
+# book_genre %>% 
+ # pivot_wider(id_cols = c(genre_1, genre_2, genre_3, genre_4, genre_4, genre_5, genre_6, genre_7, genre_8),
+ #             names_from = genre_1,
+  #            values_from = (c(genre_1, genre_2, genre_3, genre_4, genre_4, genre_5, genre_6, genre_7, genre_8)))
 ```
