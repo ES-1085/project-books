@@ -225,6 +225,8 @@ from a queer perspective, and the specifics within queer literature.
 
 ## 4. Data analysis plan
 
+#### Correlation between number of rating and average rating
+
 ``` r
 queer_books_data %>% 
   ggplot(aes( x = num_ratings, y = average_rating)) +
@@ -237,6 +239,8 @@ queer_books_data %>%
 ```
 
 <img src="proposal_files/figure-gfm/corelation-rating-numrating-1.png" alt="Point Hexagon graph showing the correlation between the average rating of a selection of 500 books to the number of ratings receieved, the average rating being between 3 - 4.5, and number of ratings going from 1, through to 3e+06 (3000,000). The highest rating received with the most number of ratings was 4.1. Dataset only includes 500 observations"  />
+
+#### Check correltion of top rating and number of rating
 
 check whether the high average rating has high number of rating.
 Checked: there is no overlap between the average rating and the number
@@ -295,6 +299,8 @@ Top_ten_ave %>%
     ##  9 Heartstopper: Volume Four (Heartstopper, #4)                 4.61          NA
     ## 10 Crooked Kingdom (Six of Crows, #2)                           4.6           NA
 
+#### Mutate year to decade
+
 ``` r
 queer_books_data <- queer_books_data %>% 
   mutate(year_by_decade = case_when(year_published %in% c("1970","1971", "1972", "1973", "1974","1975", "1976", "1977", "1978", "1979") ~ "1970s",
@@ -321,6 +327,8 @@ queer_books_data <- queer_books_data %>%
                                     original_publication_year %in% c("2010","2011","2012","2013","2014","2015","2016","2017","2018","2019") ~ "2010s",
                                     original_publication_year %in% c("2020","2021","2022","2023","2024") ~ "2020s"))
 ```
+
+#### Visualise second and original publication by decade
 
 ``` r
 queer_books_data %>% 
@@ -350,7 +358,8 @@ queer_books_data %>%
     ## ℹ Did you forget to specify a `group` aesthetic or to convert a numerical
     ##   variable into a factor?
 
-![](proposal_files/figure-gfm/first-published-gragh-1.png)<!-- -->
+![](proposal_files/figure-gfm/first-published-gragh-1.png)<!-- --> \####
+Visualise the change of binding’s types by decade
 
 ``` r
 queer_books_data %>%
@@ -363,6 +372,8 @@ queer_books_data %>%
 ```
 
 ![](proposal_files/figure-gfm/change-binding-dacade-1.png)<!-- -->
+
+#### Visualise the change of binding’s types by year
 
 ``` r
 queer_books_data %>%
@@ -380,6 +391,8 @@ queer_books_data %>%
 
 ![](proposal_files/figure-gfm/change-binding-years-1.png)<!-- -->
 
+#### Filter book that got republished
+
 ``` r
 republished_book <- queer_books_data %>% 
   filter(year_published != original_publication_year)
@@ -388,6 +401,8 @@ republished_book <- queer_books_data %>%
  #      mapping = aes( x = year_published, y = original_published)) +
   #geom_point() ##what would be a good geom to visualize this data. 
 ```
+
+#### Check top publishers
 
 Look at which publisher has more number of book published.
 
@@ -411,6 +426,8 @@ queer_books_data %>%
     ##  9 Tor Books                                       7
     ## 10 Ace                                             6
     ## # ℹ 275 more rows
+
+#### Merge genre to primary dataset
 
 Try to make a similar graph for all the genre
 
@@ -440,6 +457,8 @@ queer_books_genre %>%
 
 ![](proposal_files/figure-gfm/book-genre-join-1.png)<!-- -->
 
+#### Categorise the average rating
+
 ``` r
 queer_books_genre <- queer_books_genre %>% 
   mutate(rating_categories = case_when(str_starts(average_rating, pattern = "2")~"2",
@@ -447,6 +466,8 @@ queer_books_genre <- queer_books_genre %>%
                                        str_starts(average_rating, pattern = "4")~"4",
                                        str_starts(average_rating, pattern = "5")~"5"))
 ```
+
+#### Compare the books’ rating of the top publishers
 
 Look at the books’ title published by the top five of most frequent
 publishers. Then look at the correlation of these books’ average ratings
@@ -468,6 +489,8 @@ ggplot(data = Books_and_publishers,
 
 ![](proposal_files/figure-gfm/books-of-publisher-sum-1.png)<!-- -->
 
+#### Check missing data
+
 ``` r
 vis_miss(queer_books_genre)
 ```
@@ -481,6 +504,8 @@ queer_books_genre %>%
 ```
 
 ![](proposal_files/figure-gfm/check-na-shadow-1.png)<!-- -->
+
+#### Genres’ average rating
 
 ``` r
 all_book_genre <- queer_books_genre %>% 
@@ -499,6 +524,8 @@ all_book_genre %>%
 
 ![](proposal_files/figure-gfm/genre-rating-1.png)<!-- -->
 
+#### Books’ genre in each top publishers
+
 ``` r
 books_publisher_genre <- Books_and_publishers %>% 
    pivot_longer(cols = genre_1:genre_8, names_to = c("genre_1", "genre_2", "genre_3", "genre_4", "genre_5", "genre_6", "genre_7", "genre_8"), names_pattern = "(_)(_)(_)(_)(_)(_)(_)(_)", values_to = "all_genre", values_drop_na = TRUE) %>% 
@@ -516,6 +543,8 @@ books_publisher_genre %>%
 
 ![](proposal_files/figure-gfm/top-publishers-genre-1.png)<!-- -->
 
+#### Books’ genre in each top publishers by rating
+
 ``` r
 books_publisher_genre %>% 
   ggplot(aes(x = fct_rev(fct_infreq(all_genre)), fill = publisher)) +
@@ -529,6 +558,8 @@ books_publisher_genre %>%
 ```
 
 ![](proposal_files/figure-gfm/top-publisher-genre-rating-1.png)<!-- -->
+
+#### Visualise books’ average rating and number of rating in each year by genre (only top publishers’s books)
 
 ``` r
 books_publisher_genre %>% 
@@ -545,6 +576,8 @@ books_publisher_genre %>%
 ```
 
 ![](proposal_files/figure-gfm/genre-toppublish-rating-1.png)<!-- -->
+
+#### Visualise books’ average rating and number of rating in each year by genre (all the books)
 
 ``` r
 ggsave(filename = "book_genre.png", width = 8, height = 6)
