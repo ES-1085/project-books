@@ -1,6 +1,6 @@
 ---
 title: "Project proposal"
-author: "Queer Lit"
+author: "Queer Lit Sample"
 output: github_document
 editor_options: 
   chunk_output_type: inline
@@ -82,6 +82,45 @@ original_publication_year: First publication year
 
 exclusive-shelf:file name
 
+Genre Explanations: 
+aromantic: book containing aromantic themes, characters, relationships
+
+asexual: book containing asexual and a-spectrum (demi-sexual, gray-sexual ect) themes, characters, relationships
+
+bisexual: book containing bisexual themes, characters, relationships
+
+dystopian: books including one of the following: dystopian, futuristic, science-fiction, speculative fiction, alien
+
+fantasy: books including the following: fantasy, High-Fantasy, Science-Fiction Fantasy, Magic, Paranormal, Urban Fantasy, Supernatural
+
+fiction: books that didn't contain any of the other genres, including Historical Fiction, poetry, short stories, Contemporary, Anthologies, Fiction Essays, Graphic Novels
+
+gay: books including themes of homosexuality pertaining to male and male relationships, characters identifying as gay
+
+horror: books including one of the following genres: Horror, Paranormal, Dark Fantasy, Supernatural, thriller, Gothic
+
+intersexual: books containing intersexual themes, characters, relationships
+
+lesbian: books including themes of homosexuality pertaining to female and female relationships, characters identifying as lesbian
+
+mystery-thriller: books including one of the following genres: mystery, thriller, crime, investigation, detective
+
+non-binary: books that don't fall within the gender binary of just male or female, and includes themes of:queer, genderfluid, trans, intersexual, agender, involves characters who identify as non-binary, could also invlove themes of gender discussion and gender exploration
+
+non-fiction: books that are not fictional
+
+polyamourous: books containing polyamoruous themes, characters, relationships
+
+queer: books that are categorized generally, include multiple facets of queerness, and are hard to define into a singular generalisation already considered in the other genres
+
+queer-platonic: books containing relationships that are not strictly sexual or romantic 
+
+religion: books containing religious themes, characters including Christianity, Buddhism, Muslim, Hindi or containing religious themes: demons, angels, deities, gods, old-religions, balasura, 
+
+romance: books that include romance 
+
+trans: books containing transgender and transexual themes, characters, relationships, discussions
+
 ```{r glimpse-data-frame}
 glimpse(queer_books_data)
 ```
@@ -110,7 +149,7 @@ This project is supposed to represent the possibilities of analysis that can be 
 
 ## 4. Data analysis plan
 
-```{r corelation-rating-numrating}
+```{r corelation-rating-numrating, fig.alt = "Point Hexagon graph showing the correlation between the average rating of a selection of 500 books to the number of ratings receieved, the average rating being between 3 - 4.5, and number of ratings going from 1, through to 3e+06 (3000,000). The highest rating received with the most number of ratings was 4.1. Dataset only includes 500 observations"}
 queer_books_data %>% 
   ggplot(aes( x = num_ratings, y = average_rating)) +
   geom_hex() +
@@ -123,7 +162,7 @@ queer_books_data %>%
 
 check whether the high average rating has high number of rating. 
 Checked: there is no overlap between the average rating and the number of rating. 
-```{r check_overlap}
+```{r check_overlap, alt.fig = ""}
 Top_ten_ave <- queer_books_data %>% 
   select(title, average_rating) %>% 
   arrange(desc(average_rating)) %>% 
@@ -177,33 +216,46 @@ queer_books_data <- queer_books_data %>%
 ```
 
 
-```{r decade-published-graph}
+```{r decade-published-graph, alt.fig = "Bar graph showing the number of books published by decade from the 70s, to the 2020s. The order of number of queer books published from lowest to highest: 1970s, NA, 1980s, 1990s, 2020s, 2000s, and 2010s has the highest number of books. Dataset only contains 500 books."}
 queer_books_data %>% 
   ggplot(aes( x = year_by_decade)) +
-  geom_bar()
+  geom_bar()+
+  labs(title = "Rate of Publication",
+       subtitle = "by Decade",
+    x = "Publication Decade",
+    y = "Number of Books")
 ```
 
-```{r first-published-gragh}
+```{r first-published-gragh, alt.fig = "Bar graph showing the number of books and the decade they were originally published in from pre 1900s - 2020s, including NA. The order of number of queer books published from lowest to highest: 1930s, 1940s, 1910s, 1920s, <1900s, 1950s/1960s, 1970s, 1980s, NA, 1990s, 2020s, 2000s, and 2010s has the highest. Dataset only contains 500 books."}
 queer_books_data %>% 
   ggplot(aes( x = originalyear_by_decade, fill = average_rating)) +
-  geom_bar()
+  geom_bar()+
+  labs(title = "Original Year of Publication",
+       subtitle = "by Decade",
+       x = "Original Publication Decade",
+       y = "Number of Books")
 ```
 
 
-```{r change-binding-dacade}
+```{r change-binding-dacade, alt.fig = "Bar graph showing the number of books published by decade from the 70s, to the 2020s. The order of number of queer books published from lowest to highest: 1970s, NA, 1980s, 1990s, 2020s, 2000s, and 2010s has the highest number of books. Bar graph color-coded by types of book binding: ARC, Audio CD, ebook, hardcover, Kindle edition, Kindle edition with audio, Mas market paperback, MP3 CD, Paperback,  Dataset only contains 500 books."}
 queer_books_data %>%
   ggplot(aes( x = year_by_decade, fill = binding)) +
   geom_bar(alpha = 0.7) +
   scale_fill_viridis_d() +
-  labs(title = "Binding types's frequency",
-       x = NULL, y = NULL) 
+  labs(title = "Binding Format Frequency",
+       subtitle = "by Decade",
+       x = "Decade of Publication", y = "Number of Books") 
 ```
 
-```{r change-binding-years}
+```{r change-binding-years, alt.fig = "Bar graph showing number of books published per year and color-filled by binding format. The highest number of books was published in 2016, also has the widest variety of binding formats. Variety of binding formats increases across the graph" }
 queer_books_data %>%
   ggplot(aes( x = year_published, fill = binding)) +
   geom_bar(alpha = 0.7) +
-  scale_fill_viridis_d()
+  scale_fill_viridis_d()+
+  labs(title = "Binding Format Frequency",
+       subtitle = "by Year of Publication",
+       x = "Publication Year",
+       y = "Number of Books")
 ```
 
 
@@ -333,6 +385,8 @@ books_publisher_genre %>%
        y = "publication year",
        color = "average rating",
        size = "number of rating")
+
+ggsave(filename = "book_genre.png", width = 8, height = 6)
 ```
 
 ```{r genre-rating-year}

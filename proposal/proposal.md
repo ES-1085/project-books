@@ -1,6 +1,6 @@
 Project proposal
 ================
-Queer Lit
+Queer Lit Sample
 
 ``` r
 library(tidyverse)
@@ -97,6 +97,65 @@ original_publication_year: First publication year
 
 exclusive-shelf:file name
 
+Genre Explanations: aromantic: book containing aromantic themes,
+characters, relationships
+
+asexual: book containing asexual and a-spectrum (demi-sexual,
+gray-sexual ect) themes, characters, relationships
+
+bisexual: book containing bisexual themes, characters, relationships
+
+dystopian: books including one of the following: dystopian, futuristic,
+science-fiction, speculative fiction, alien
+
+fantasy: books including the following: fantasy, High-Fantasy,
+Science-Fiction Fantasy, Magic, Paranormal, Urban Fantasy, Supernatural
+
+fiction: books that didn’t contain any of the other genres, including
+Historical Fiction, poetry, short stories, Contemporary, Anthologies,
+Fiction Essays, Graphic Novels
+
+gay: books including themes of homosexuality pertaining to male and male
+relationships, characters identifying as gay
+
+horror: books including one of the following genres: Horror, Paranormal,
+Dark Fantasy, Supernatural, thriller, Gothic
+
+intersexual: books containing intersexual themes, characters,
+relationships
+
+lesbian: books including themes of homosexuality pertaining to female
+and female relationships, characters identifying as lesbian
+
+mystery-thriller: books including one of the following genres: mystery,
+thriller, crime, investigation, detective
+
+non-binary: books that don’t fall within the gender binary of just male
+or female, and includes themes of:queer, genderfluid, trans,
+intersexual, agender, involves characters who identify as non-binary,
+could also invlove themes of gender discussion and gender exploration
+
+non-fiction: books that are not fictional
+
+polyamourous: books containing polyamoruous themes, characters,
+relationships
+
+queer: books that are categorized generally, include multiple facets of
+queerness, and are hard to define into a singular generalisation already
+considered in the other genres
+
+queer-platonic: books containing relationships that are not strictly
+sexual or romantic
+
+religion: books containing religious themes, characters including
+Christianity, Buddhism, Muslim, Hindi or containing religious themes:
+demons, angels, deities, gods, old-religions, balasura,
+
+romance: books that include romance
+
+trans: books containing transgender and transexual themes, characters,
+relationships, discussions
+
 ``` r
 glimpse(queer_books_data)
 ```
@@ -177,7 +236,7 @@ queer_books_data %>%
         y = "Average rating")
 ```
 
-![](proposal_files/figure-gfm/corelation-rating-numrating-1.png)<!-- -->
+<img src="proposal_files/figure-gfm/corelation-rating-numrating-1.png" alt="Point Hexagon graph showing the correlation between the average rating of a selection of 500 books to the number of ratings receieved, the average rating being between 3 - 4.5, and number of ratings going from 1, through to 3e+06 (3000,000). The highest rating received with the most number of ratings was 4.1. Dataset only includes 500 observations"  />
 
 check whether the high average rating has high number of rating.
 Checked: there is no overlap between the average rating and the number
@@ -266,7 +325,11 @@ queer_books_data <- queer_books_data %>%
 ``` r
 queer_books_data %>% 
   ggplot(aes( x = year_by_decade)) +
-  geom_bar()
+  geom_bar()+
+  labs(title = "Rate of Publication",
+       subtitle = "by Decade",
+    x = "Publication Decade",
+    y = "Number of Books")
 ```
 
 ![](proposal_files/figure-gfm/decade-published-graph-1.png)<!-- -->
@@ -274,10 +337,14 @@ queer_books_data %>%
 ``` r
 queer_books_data %>% 
   ggplot(aes( x = originalyear_by_decade, fill = average_rating)) +
-  geom_bar()
+  geom_bar()+
+  labs(title = "Original Year of Publication",
+       subtitle = "by Decade",
+       x = "Original Publication Decade",
+       y = "Number of Books")
 ```
 
-    ## Warning: The following aesthetics were dropped during statistical transformation: fill
+    ## Warning: The following aesthetics were dropped during statistical transformation: fill.
     ## ℹ This can happen when ggplot fails to infer the correct grouping structure in
     ##   the data.
     ## ℹ Did you forget to specify a `group` aesthetic or to convert a numerical
@@ -290,8 +357,9 @@ queer_books_data %>%
   ggplot(aes( x = year_by_decade, fill = binding)) +
   geom_bar(alpha = 0.7) +
   scale_fill_viridis_d() +
-  labs(title = "Binding types's frequency",
-       x = NULL, y = NULL) 
+  labs(title = "Binding Format Frequency",
+       subtitle = "by Decade",
+       x = "Decade of Publication", y = "Number of Books") 
 ```
 
 ![](proposal_files/figure-gfm/change-binding-dacade-1.png)<!-- -->
@@ -300,10 +368,15 @@ queer_books_data %>%
 queer_books_data %>%
   ggplot(aes( x = year_published, fill = binding)) +
   geom_bar(alpha = 0.7) +
-  scale_fill_viridis_d()
+  scale_fill_viridis_d()+
+  labs(title = "Binding Format Frequency",
+       subtitle = "by Year of Publication",
+       x = "Publication Year",
+       y = "Number of Books")
 ```
 
-    ## Warning: Removed 2 rows containing non-finite values (`stat_count()`).
+    ## Warning: Removed 2 rows containing non-finite outside the scale range
+    ## (`stat_count()`).
 
 ![](proposal_files/figure-gfm/change-binding-years-1.png)<!-- -->
 
@@ -474,6 +547,10 @@ books_publisher_genre %>%
 ![](proposal_files/figure-gfm/genre-toppublish-rating-1.png)<!-- -->
 
 ``` r
+ggsave(filename = "book_genre.png", width = 8, height = 6)
+```
+
+``` r
 all_book_genre %>% 
   ggplot(aes(x = all_genre, y = year_published, size = num_ratings, fill = rating_categories)) +
   geom_point(alpha=0.7, shape = 21, color = "black") +
@@ -487,7 +564,8 @@ all_book_genre %>%
        size = "number of rating")
 ```
 
-    ## Warning: Removed 5 rows containing missing values (`geom_point()`).
+    ## Warning: Removed 5 rows containing missing values or values outside the scale range
+    ## (`geom_point()`).
 
 ![](proposal_files/figure-gfm/genre-rating-year-1.png)<!-- -->
 
