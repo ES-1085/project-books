@@ -225,7 +225,7 @@ from a queer perspective, and the specifics within queer literature.
 
 ## 4. Data analysis plan
 
-#### Correlation between number of rating and average rating
+#### Correlation of average rating and number of rating
 
 ``` r
 queer_books_data %>% 
@@ -373,7 +373,7 @@ queer_books_data %>%
 
 ![](proposal_files/figure-gfm/change-binding-dacade-1.png)<!-- -->
 
-#### Visualise the change of binding’s types by year
+#### Visualise the change of binding formats by year
 
 ``` r
 queer_books_data %>%
@@ -577,11 +577,11 @@ books_publisher_genre %>%
 
 ![](proposal_files/figure-gfm/genre-toppublish-rating-1.png)<!-- -->
 
-#### Visualise books’ average rating and number of rating in each year by genre (all the books)
-
 ``` r
 ggsave(filename = "book_genre.png", width = 8, height = 6)
 ```
+
+#### Visualise books’ average rating and number of rating in each year by genre (all the books)
 
 ``` r
 all_book_genre %>% 
@@ -627,11 +627,4 @@ book_genre %>%
 #book_genre <- mutate(book_genre, type = genre_all(c("genre_1", "genre_2", "genre_3", "genre_4", "genre_5", "genre_6", "genre_7", "genre_8")))
 #  ggplot(aes(x = "all_genre"))+
 #  geom_point()
-```
-
-``` r
-# book_genre %>% 
- # pivot_wider(id_cols = c(genre_1, genre_2, genre_3, genre_4, genre_4, genre_5, genre_6, genre_7, genre_8),
- #             names_from = genre_1,
-  #            values_from = (c(genre_1, genre_2, genre_3, genre_4, genre_4, genre_5, genre_6, genre_7, genre_8)))
 ```

@@ -187,8 +187,9 @@ top_bottom_ten <- bind_rows(Top_ten_ave, bottom_ten_ave)
 
 ```{r}
 top_bottom_ten %>% 
-  ggplot(aes(x = num_ratings, y = average_rating, color = )) +
-  geom_line()
+  ggplot(aes(y = average_rating, x = num_ratings, fill = average_rating))+
+  geom_density_ridges()+
+  theme(legend.position = "none")
 ```
 
 
