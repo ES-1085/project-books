@@ -168,12 +168,12 @@ check whether the high average rating has high number of rating.
 Checked: there is no overlap between the average rating and the number of rating. 
 ```{r check_overlap, alt.fig = ""}
 Top_ten_ave <- queer_books_data %>% 
-  select(title, average_rating) %>% 
+  select(title, average_rating, num_ratings) %>% 
   arrange(desc(average_rating)) %>% 
   slice(1:10)
 
 bottom_ten_ave <- queer_books_data %>% 
-  select(title, average_rating) %>% 
+  select(title, average_rating, num_ratings) %>% 
   arrange((average_rating)) %>% 
   slice(1:10)
 
@@ -182,10 +182,15 @@ Top_ten_num <- queer_books_data %>%
   arrange(desc(num_ratings)) %>% 
   slice(1:10)
 
-bottom_ten_ave %>% 
-  left_join(Top_ten_num, by = "title")
-
+top_bottom_ten <- bind_rows(Top_ten_ave, bottom_ten_ave)
 ```
+
+```{r}
+top_bottom_ten %>% 
+  ggplot(aes(x = num_ratings, y = average_rating, color = )) +
+  geom_line()
+```
+
 
 ```{r join-ave-num}
 Top_ten_ave %>% 
@@ -253,6 +258,17 @@ queer_books_data %>%
        subtitle = "by Decade",
        x = "Decade of Publication", y = "Number of Books") 
 ```
+
+```{r}
+queer_books_data %>%
+  ggplot(aes( x = originalyear_by_decade, fill = binding)) +
+  geom_bar(alpha = 0.7) +
+  scale_fill_viridis_d() +
+  labs(title = "Binding Format Frequency",
+       subtitle = "by Decade",
+       x = "Decade of Publication", y = "Number of Books") 
+```
+
 
 #### Visualise the change of binding formats by year
 ```{r change-binding-years, alt.fig = "Bar graph showing number of books published per year and color-filled by binding format. The highest number of books was published in 2016, also has the widest variety of binding formats. Variety of binding formats increases across the graph" }
@@ -420,13 +436,14 @@ all_book_genre %>%
   ggplot(aes(x = all_genre, y = year_published, size = num_ratings, fill = rating_categories)) +
   geom_point(alpha=0.7, shape = 21, color = "black") +
   coord_flip() +
-  scale_fill_viridis_d() +
+  scale_fill_manual(values = c("#ff5dbc", "#21928c", "#fde725", "#440154")) +
   theme_ipsum() +
   labs(title = "Books' genre and average rating by year",
        x = "genre",
        y = "publication year",
        fill = "average rating",
-       size = "number of rating")
+       size = "number of rating") +
+  scale_size_continuous(range = c(2, 20))
 ```
 
 
