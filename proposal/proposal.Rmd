@@ -160,6 +160,8 @@ queer_books_data %>%
         subtitle = "Goodread data from 1974 - 2024",
         x = "Number of rating",
         y = "Average rating")
+
+ggsave(filename = "rating_review_correlation.png", width = 10, height = 8)
 ```
 
 #### Check correltion of top rating and number of rating
@@ -183,13 +185,15 @@ Top_ten_num <- queer_books_data %>%
   slice(1:10)
 
 top_bottom_ten <- bind_rows(Top_ten_ave, bottom_ten_ave)
+
+write_csv(top_bottom_ten, file = "top_bottom_ten.csv")
 ```
 
 ```{r}
-top_bottom_ten %>% 
-  ggplot(aes(y = average_rating, x = num_ratings, fill = average_rating))+
-  geom_density_ridges()+
-  theme(legend.position = "none")
+#top_bottom_ten %>% 
+ # ggplot(aes(y = average_rating, x = num_ratings, fill = average_rating))+
+  #geom_density_ridges()+
+  #theme(legend.position = "none")
 ```
 
 

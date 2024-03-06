@@ -248,12 +248,12 @@ of rating.
 
 ``` r
 Top_ten_ave <- queer_books_data %>% 
-  select(title, average_rating) %>% 
+  select(title, average_rating, num_ratings) %>% 
   arrange(desc(average_rating)) %>% 
   slice(1:10)
 
 bottom_ten_ave <- queer_books_data %>% 
-  select(title, average_rating) %>% 
+  select(title, average_rating, num_ratings) %>% 
   arrange((average_rating)) %>% 
   slice(1:10)
 
@@ -262,42 +262,34 @@ Top_ten_num <- queer_books_data %>%
   arrange(desc(num_ratings)) %>% 
   slice(1:10)
 
-bottom_ten_ave %>% 
-  left_join(Top_ten_num, by = "title")
+top_bottom_ten <- bind_rows(Top_ten_ave, bottom_ten_ave)
 ```
 
-    ## # A tibble: 10 × 3
-    ##    title                                            average_rating num_ratings
-    ##    <chr>                                                     <dbl>       <dbl>
-    ##  1 The Loveless Princess                                      2.8           NA
-    ##  2 This Song Is (Not) for You                                 3.04          NA
-    ##  3 We Awaken                                                  3.16          NA
-    ##  4 Ace of Hearts                                              3.18          NA
-    ##  5 That Inevitable Victorian Thing                            3.21          NA
-    ##  6 In My Dreams (Aces in Love #1)                             3.25          NA
-    ##  7 The Once and Future Queen, Vol. 1: Opening Moves           3.26          NA
-    ##  8 Before I Let Go                                            3.33          NA
-    ##  9 Overleveled, Underloved                                    3.33          NA
-    ## 10 Coffee Cake (Coffee Cake, #1)                              3.34          NA
+``` r
+#top_bottom_ten %>% 
+ # ggplot(aes(y = average_rating, x = num_ratings, fill = average_rating))+
+  #geom_density_ridges()+
+  #theme(legend.position = "none")
+```
 
 ``` r
 Top_ten_ave %>% 
   left_join(Top_ten_num, by = "title")
 ```
 
-    ## # A tibble: 10 × 3
-    ##    title                                              average_rating num_ratings
-    ##    <chr>                                                       <dbl>       <dbl>
-    ##  1 The Seemingly Impossible Love Life of Amanda Dean            5             NA
-    ##  2 No FREE Attention: How Women use The Possibility …           4.91          NA
-    ##  3 To a Darker Shore                                            4.79          NA
-    ##  4 Nonbinary                                                    4.78          NA
-    ##  5 The Midnight Strider (The Chronomancer Chronicles…           4.76          NA
-    ##  6 Thirteenth                                                   4.74          NA
-    ##  7 The Blue Codex (The Blue Codex, #1)                          4.7           NA
-    ##  8 Earthflown                                                   4.65          NA
-    ##  9 Heartstopper: Volume Four (Heartstopper, #4)                 4.61          NA
-    ## 10 Crooked Kingdom (Six of Crows, #2)                           4.6           NA
+    ## # A tibble: 10 × 4
+    ##    title                              average_rating num_ratings.x num_ratings.y
+    ##    <chr>                                       <dbl>         <dbl>         <dbl>
+    ##  1 The Seemingly Impossible Love Lif…           5               16            NA
+    ##  2 No FREE Attention: How Women use …           4.91           257            NA
+    ##  3 To a Darker Shore                            4.79            19            NA
+    ##  4 Nonbinary                                    4.78            51            NA
+    ##  5 The Midnight Strider (The Chronom…           4.76            17            NA
+    ##  6 Thirteenth                                   4.74            53            NA
+    ##  7 The Blue Codex (The Blue Codex, #…           4.7             10            NA
+    ##  8 Earthflown                                   4.65           172            NA
+    ##  9 Heartstopper: Volume Four (Hearts…           4.61        369882            NA
+    ## 10 Crooked Kingdom (Six of Crows, #2)           4.6         625376            NA
 
 #### Mutate year to decade
 
@@ -372,6 +364,18 @@ queer_books_data %>%
 ```
 
 ![](proposal_files/figure-gfm/change-binding-dacade-1.png)<!-- -->
+
+``` r
+queer_books_data %>%
+  ggplot(aes( x = originalyear_by_decade, fill = binding)) +
+  geom_bar(alpha = 0.7) +
+  scale_fill_viridis_d() +
+  labs(title = "Binding Format Frequency",
+       subtitle = "by Decade",
+       x = "Decade of Publication", y = "Number of Books") 
+```
+
+![](proposal_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
 
 #### Visualise the change of binding formats by year
 
@@ -588,13 +592,14 @@ all_book_genre %>%
   ggplot(aes(x = all_genre, y = year_published, size = num_ratings, fill = rating_categories)) +
   geom_point(alpha=0.7, shape = 21, color = "black") +
   coord_flip() +
-  scale_fill_viridis_d() +
+  scale_fill_manual(values = c("#ff5dbc", "#21928c", "#fde725", "#440154")) +
   theme_ipsum() +
   labs(title = "Books' genre and average rating by year",
        x = "genre",
        y = "publication year",
        fill = "average rating",
-       size = "number of rating")
+       size = "number of rating") +
+  scale_size_continuous(range = c(2, 20))
 ```
 
     ## Warning: Removed 5 rows containing missing values or values outside the scale range
