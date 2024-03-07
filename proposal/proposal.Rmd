@@ -204,10 +204,31 @@ top_bottom_ten <- bind_rows(Top_ten_ave, bottom_ten_ave)
 ```
 
 ```{r}
-#top_bottom_ten %>% 
- # ggplot(aes(y = average_rating, x = num_ratings, fill = average_rating))+
-  #geom_density_ridges()+
-  #theme(legend.position = "none")
+top_bottom_ten <- top_bottom_ten %>% 
+  mutate(high_and_low = case_when(title %in% c("The Seemingly Impossible Love Life of Amanda Dean", "No FREE Attention: How Women use The Possibility of Sex to Manipulate Naïve and Lustful Men", "To a Darker Shore", "Nonbinary", "The Midnight Strider (The Chronomancer Chronicles, #2)", "Thirteenth", "The Blue Codex (The Blue Codex, #1)", "Earthflown", "Heartstopper: Volume Four (Heartstopper, #4)", "Crooked Kingdom (Six of Crows, #2)")~"high", title %in% c("The Loveless Princess", "This Song Is (Not) for You", "We Awaken", "Ace of Hearts", "That Inevitable Victorian Thing", "In My Dreams (Aces in Love #1)", "The Once and Future Queen, Vol. 1: Opening Moves", "Before I Let Go", "Overleveled, Underloved", "Coffee Cake (Coffee Cake, #1)")~"low"))
+  
+top_bottom_ten %>%   
+  ggplot(aes(y = average_rating, x = num_ratings, group = high_and_low, color = high_and_low))+
+  geom_point() +
+  scale_color_manual(values = c("#660066", "#ffcc00")) +
+  theme_ipsum() +
+  labs(title = "Correlation between Average Rating and Number of Review",
+       subtitle = "Comparison of Top and Bottom Average Ratings",
+       x = "Average Rating", y = "Number of Reviews",
+       color = "Rating group")
+```
+
+```{r}
+top_bottom_ten %>%   
+  ggplot(aes(y = average_rating, x = num_ratings, group = high_and_low, color = high_and_low))+
+  geom_point() +
+  scale_color_manual(values = c("#660066", "#ffcc00")) +
+  theme_ipsum() +
+  xlim(0,1000) +
+   labs(title = "Correlation between Average Rating and Number of Review",
+       subtitle = "Comparison of Top and Bottom Average Ratings",
+       x = "Average Rating", y = "Number of Reviews",
+       color = "Rating group")
 ```
 
 
@@ -467,6 +488,8 @@ all_book_genre %>%
        fill = "average rating",
        size = "number of rating") +
   scale_size_continuous(range = c(2, 20))
+
+ggsave(filename = ".png", width = 10, height = 8)
 ```
 
 
