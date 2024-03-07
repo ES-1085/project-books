@@ -203,7 +203,9 @@ top_bottom_ten <- bind_rows(Top_ten_ave, bottom_ten_ave)
 # write_csv(top_bottom_ten, file = "top_bottom_ten.csv")
 ```
 
-```{r}
+#### Compare low and high average rating
+
+```{r visualise-low-high-rating}
 top_bottom_ten <- top_bottom_ten %>% 
   mutate(high_and_low = case_when(title %in% c("The Seemingly Impossible Love Life of Amanda Dean", "No FREE Attention: How Women use The Possibility of Sex to Manipulate Naïve and Lustful Men", "To a Darker Shore", "Nonbinary", "The Midnight Strider (The Chronomancer Chronicles, #2)", "Thirteenth", "The Blue Codex (The Blue Codex, #1)", "Earthflown", "Heartstopper: Volume Four (Heartstopper, #4)", "Crooked Kingdom (Six of Crows, #2)")~"high", title %in% c("The Loveless Princess", "This Song Is (Not) for You", "We Awaken", "Ace of Hearts", "That Inevitable Victorian Thing", "In My Dreams (Aces in Love #1)", "The Once and Future Queen, Vol. 1: Opening Moves", "Before I Let Go", "Overleveled, Underloved", "Coffee Cake (Coffee Cake, #1)")~"low"))
   
@@ -218,7 +220,7 @@ top_bottom_ten %>%
        color = "Rating group")
 ```
 
-```{r}
+```{r zoom-in-visualise-low-high-rating}
 top_bottom_ten %>%   
   ggplot(aes(y = average_rating, x = num_ratings, group = high_and_low, color = high_and_low))+
   geom_point() +
