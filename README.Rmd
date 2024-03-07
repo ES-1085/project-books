@@ -1,6 +1,6 @@
 ---
-title: Project title
-author: Queer Lit Sample
+title: Queer Lit Sample
+author: Asy Xaytouthor & Kandi Grey
 output: github_document
 ---
 
