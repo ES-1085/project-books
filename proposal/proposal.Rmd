@@ -1,6 +1,6 @@
 ---
-title: "Project proposal"
-author: "Queer Lit Sample"
+title: "Queer Lit Sample Project Proposal"
+author: "Asy Xaytouthor & Kandi Grey"
 output: github_document
 editor_options: 
   chunk_output_type: inline
@@ -164,7 +164,7 @@ queer_books_data %>%
 ggsave(filename = "rating_review_correlation.png", width = 10, height = 8)
 ```
 
-#### Check correltion of top rating and number of rating
+#### Check correlation of top rating and number of rating
 
 check whether the high average rating has high number of rating. 
 Checked: there is no overlap between the average rating and the number of rating. 
@@ -186,7 +186,7 @@ Top_ten_num <- queer_books_data %>%
 
 top_bottom_ten <- bind_rows(Top_ten_ave, bottom_ten_ave)
 
-write_csv(top_bottom_ten, file = "top_bottom_ten.csv")
+# write_csv(top_bottom_ten, file = "top_bottom_ten.csv")
 ```
 
 ```{r}
