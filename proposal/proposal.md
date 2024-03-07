@@ -1,6 +1,6 @@
-Project proposal
+Queer Lit Sample Project Proposal
 ================
-Queer Lit Sample
+Asy Xaytouthor & Kandi Grey
 
 ``` r
 library(tidyverse)
@@ -231,16 +231,52 @@ from a queer perspective, and the specifics within queer literature.
 queer_books_data %>% 
   ggplot(aes( x = num_ratings, y = average_rating)) +
   geom_hex() +
-  scale_fill_viridis_b() +
+  scale_fill_viridis_b("Number of Books") +
   labs( title = "Correlation of average rating and number of rating",
         subtitle = "Goodread data from 1974 - 2024",
         x = "Number of rating",
         y = "Average rating")
 ```
 
-<img src="proposal_files/figure-gfm/corelation-rating-numrating-1.png" alt="Point Hexagon graph showing the correlation between the average rating of a selection of 500 books to the number of ratings receieved, the average rating being between 3 - 4.5, and number of ratings going from 1, through to 3e+06 (3000,000). The highest rating received with the most number of ratings was 4.1. Dataset only includes 500 observations"  />
+<img src="proposal_files/figure-gfm/correlation-rating-numrating-1.png" alt="Point Hexagon graph showing the correlation between the average rating of a selection of 500 books to the number of ratings receieved, the average rating being between 3 - 4.5, and number of ratings going from 1, through to 3e+06 (3 mil/3000,000). The highest rating received with the most number of ratings was 3.9 and 4.1. Dataset only includes 500 observations"  />
 
-#### Check correltion of top rating and number of rating
+``` r
+ggsave(filename = "rating_review_correlation.png", width = 10, height = 8)
+```
+
+``` r
+queer_books_data %>% 
+  ggplot(aes( x = num_ratings, y = average_rating)) +
+  geom_hex() +
+  scale_fill_viridis_b() +
+  labs( title = "Correlation of average rating and number of rating",
+        subtitle = "Goodread data from 1974 - 2024",
+        x = "Number of rating",
+        y = "Average rating")+
+  xlim(0, 1e+06)
+```
+
+    ## Warning: Removed 8 rows containing non-finite outside the scale range
+    ## (`stat_binhex()`).
+
+    ## Warning: Removed 17 rows containing missing values or values outside the scale range
+    ## (`geom_hex()`).
+
+<img src="proposal_files/figure-gfm/correlation-rating-numrating-below-1mil-1.png" alt="Point Hexagon graph showing the correlation between the average rating of a selection of 500 books to the number of ratings receieved, the average rating being between 3 - 4.5, and number of ratings going from 1, through to 1000000 (1 mil). The highest rating received with the most number of ratings was 3.5 and 4. Dataset only includes 500 observations"  />
+
+``` r
+ggsave(filename = "rating_review_correlation-below-1mil.png", width = 10, height = 8)
+```
+
+    ## Warning: Removed 8 rows containing non-finite outside the scale range (`stat_binhex()`).
+    ## Removed 17 rows containing missing values or values outside the scale range
+    ## (`geom_hex()`).
+
+``` r
+#Won't be using this graph in the presentation - is there for clarification if necessary
+```
+
+#### Check correlation of top rating and number of rating
 
 check whether the high average rating has high number of rating.
 Checked: there is no overlap between the average rating and the number
@@ -263,14 +299,57 @@ Top_ten_num <- queer_books_data %>%
   slice(1:10)
 
 top_bottom_ten <- bind_rows(Top_ten_ave, bottom_ten_ave)
+
+# write_csv(top_bottom_ten, file = "top_bottom_ten.csv")
+```
+
+#### Compare low and high average rating
+
+``` r
+top_bottom_ten <- top_bottom_ten %>% 
+  mutate(high_and_low = case_when(title %in% c("The Seemingly Impossible Love Life of Amanda Dean", "No FREE Attention: How Women use The Possibility of Sex to Manipulate Naïve and Lustful Men", "To a Darker Shore", "Nonbinary", "The Midnight Strider (The Chronomancer Chronicles, #2)", "Thirteenth", "The Blue Codex (The Blue Codex, #1)", "Earthflown", "Heartstopper: Volume Four (Heartstopper, #4)", "Crooked Kingdom (Six of Crows, #2)")~"high", title %in% c("The Loveless Princess", "This Song Is (Not) for You", "We Awaken", "Ace of Hearts", "That Inevitable Victorian Thing", "In My Dreams (Aces in Love #1)", "The Once and Future Queen, Vol. 1: Opening Moves", "Before I Let Go", "Overleveled, Underloved", "Coffee Cake (Coffee Cake, #1)")~"low"))
+  
+top_bottom_ten %>%   
+  ggplot(aes(y = average_rating, x = num_ratings, group = high_and_low, color = high_and_low))+
+  geom_point() +
+  scale_color_manual(values = c("#660066", "#ffcc00")) +
+  theme_ipsum() +
+  labs(title = "Correlation between Average Rating and Number of Review",
+       subtitle = "Comparison of Top and Bottom Average Ratings",
+       x = "Average Rating", y = "Number of Reviews",
+       color = "Rating group")
+```
+
+<img src="proposal_files/figure-gfm/visualise-low-high-rating-1.png" alt="Scatterplot showing correlation between average rating and number of reviews for the top and bottom average rating from the Queer Lit Sample data frame. The graph has 20 points, with the highest rating being 5 and the lowest 2.8. It shows little correlation between the amount of reviews and rating as most of the points are ont the lower end of the nymber of reviews with two exceptions being higher than 300,000 reviews."  />
+
+``` r
+ggsave(filename = "top-bottom-correlation.png", width = 10, height = 6)
 ```
 
 ``` r
-#top_bottom_ten %>% 
- # ggplot(aes(y = average_rating, x = num_ratings, fill = average_rating))+
-  #geom_density_ridges()+
-  #theme(legend.position = "none")
+top_bottom_ten %>%   
+  ggplot(aes(y = average_rating, x = num_ratings, group = high_and_low, color = high_and_low))+
+  geom_point() +
+  scale_color_manual(values = c("#660066", "#ffcc00")) +
+  theme_ipsum() +
+  xlim(0,1000) +
+   labs(title = "Correlation between Average Rating and Number of Review",
+       subtitle = "Comparison of Top and Bottom Average Ratings",
+       x = "Average Rating", y = "Number of Reviews",
+       color = "Rating group")
 ```
+
+    ## Warning: Removed 4 rows containing missing values or values outside the scale range
+    ## (`geom_point()`).
+
+<img src="proposal_files/figure-gfm/zoom-in-visualise-low-high-rating-1.png" alt="Scatterplot showing correlation between average rating and number of reviews for the top and bottom average rating from the Queer Lit Sample data frame. The graph has 16 points, with the highest rating being 5 and the lowest 2.8. Is focused on books that recieved less than 1000 reviews. Both the highest rate and lowest rated recieved less than 100 reviews."  />
+
+``` r
+ggsave(filename = "top-bottom-correlation-below-1000reviews.png", width = 10, height = 6)
+```
+
+    ## Warning: Removed 4 rows containing missing values or values outside the scale range
+    ## (`geom_point()`).
 
 ``` r
 Top_ten_ave %>% 
@@ -332,7 +411,11 @@ queer_books_data %>%
     y = "Number of Books")
 ```
 
-![](proposal_files/figure-gfm/decade-published-graph-1.png)<!-- -->
+<img src="proposal_files/figure-gfm/decade-published-graph-1.png" alt="Bar graph showing the number of books published by decade from the 70s, to the 2020s. The order of number of queer books published from lowest to highest: 1970s, NA, 1980s, 1990s, 2020s, 2000s, and 2010s has the highest number of books. Dataset only contains 500 books."  />
+
+``` r
+#Won't be using this graph in presentation
+```
 
 ``` r
 queer_books_data %>% 
@@ -350,32 +433,47 @@ queer_books_data %>%
     ## ℹ Did you forget to specify a `group` aesthetic or to convert a numerical
     ##   variable into a factor?
 
-![](proposal_files/figure-gfm/first-published-gragh-1.png)<!-- --> \####
-Visualise the change of binding’s types by decade
+<img src="proposal_files/figure-gfm/first-published-gragh-1.png" alt="Bar graph showing the number of books and the decade they were originally published in from pre 1900s - 2020s, including NA. The order of number of queer books published from lowest to highest: 1930s, 1940s, 1910s, 1920s, &lt;1900s, 1950s/1960s, 1970s, 1980s, NA, 1990s, 2020s, 2000s, and 2010s has the highest. Dataset only contains 500 books."  />
+
+``` r
+#Won't be using this graph in the presentation
+```
+
+#### Visualise the change of binding’s types by decade
 
 ``` r
 queer_books_data %>%
   ggplot(aes( x = year_by_decade, fill = binding)) +
   geom_bar(alpha = 0.7) +
-  scale_fill_viridis_d() +
+  scale_fill_viridis_d("Binding Format") +
   labs(title = "Binding Format Frequency",
        subtitle = "by Decade",
        x = "Decade of Publication", y = "Number of Books") 
 ```
 
-![](proposal_files/figure-gfm/change-binding-dacade-1.png)<!-- -->
+<img src="proposal_files/figure-gfm/change-binding-dacade-1.png" alt="Bar graph showing the number of books published by decade from the 70s, to the 2020s. The order of number of queer books published from lowest to highest: 1970s, NA, 1980s, 1990s, 2020s, 2000s, and 2010s has the highest number of books. Bar graph color-coded by types of book binding: ARC, Audio CD, ebook, hardcover, Kindle edition, Kindle edition with audio, Mas market paperback, MP3 CD, Paperback,  Dataset only contains 500 books."  />
+
+``` r
+ggsave(filename = "binding-format-decade.png", width = 12, height = 8)
+
+#Won't be using this graph in the presentation
+```
 
 ``` r
 queer_books_data %>%
   ggplot(aes( x = originalyear_by_decade, fill = binding)) +
   geom_bar(alpha = 0.7) +
-  scale_fill_viridis_d() +
+  scale_fill_viridis_d("Binding Format") +
   labs(title = "Binding Format Frequency",
        subtitle = "by Decade",
        x = "Decade of Publication", y = "Number of Books") 
 ```
 
-![](proposal_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
+<img src="proposal_files/figure-gfm/binding-frequency-orignal-decade-1.png" alt="Bar graph showing the number of books orignally published by decade from pre 1900s (&lt;1900) to the 2020s, including NA. The order of number of queer books published from lowest to highest: 1930s, 1940s, 1910s, 1920s, &lt;1900s, 1950s/1960s, 1970s, 1980s, NA, 1990s, 2020s, 2000s, and 2010s has the highest. Bar graph color-coded by types of book binding: ARC (Advanced Reader Copy), Audio CD, ebook, hardcover, Kindle edition, Kindle edition with audio, Mass-market paperback, MP3 CD, Paperback. Pre 1900s - 1970s only has Paperback and Hardcover, variety of binding format increases as decades progress. NA includes Paperback, Kindle, ebook and ARC. Dataset only contains 500 books."  />
+
+``` r
+ggsave(filename = "binding_format_original_decade.png", width = 12, height = 8)
+```
 
 #### Visualise the change of binding formats by year
 
@@ -393,7 +491,14 @@ queer_books_data %>%
     ## Warning: Removed 2 rows containing non-finite outside the scale range
     ## (`stat_count()`).
 
-![](proposal_files/figure-gfm/change-binding-years-1.png)<!-- -->
+<img src="proposal_files/figure-gfm/change-binding-years-1.png" alt="Bar graph showing number of books published per year and color-filled by binding format. The highest number of books was published in 2016, also has the widest variety of binding formats. Variety of binding formats increases across the graph"  />
+
+``` r
+ggsave(filename = "binding-format-by-year.png", width = 12, height = 8)
+```
+
+    ## Warning: Removed 2 rows containing non-finite outside the scale range
+    ## (`stat_count()`).
 
 #### Filter book that got republished
 
@@ -455,11 +560,17 @@ queer_books_genre %>%
   ggplot(aes(x = fct_rev(fct_infreq(genre_1)), fill = binding)) +
   geom_bar(alpha=0.7) +
   coord_flip() +
-  scale_fill_viridis_d() +
-  labs( x = "genre")
+  scale_fill_viridis_d("Binding Format") +
+  labs( title = "Number of Books per Genre",
+        subtitle = "by Binding Format",
+        x = "Genre Type", y = "Number of Books")
 ```
 
-![](proposal_files/figure-gfm/book-genre-join-1.png)<!-- -->
+<img src="proposal_files/figure-gfm/book-genre-join-1.png" alt="Bar graph of number of books per genre. Highest number of books is in the fantasy genre, 2nd highest is gay, and then asexual. The lowest is in intersexual, then religion and non-binary. Books are color-coordinated by binding format and there is an even spread of binding format variety across the genres. Dataset only has 500 observations."  />
+
+``` r
+ggsave(filename = "books-per-genre-binding-format.png", width = 12, height = 8)
+```
 
 #### Categorise the average rating
 
@@ -485,13 +596,18 @@ ggplot(data = Books_and_publishers,
        mapping = aes( y = fct_rev(fct_infreq(publisher)), fill = "rating_categories")) +
   geom_bar() +
   scale_fill_viridis_d() +
-  labs(title = "Publishers and their books rating",
-       subtitle = "Correlation of books in top publishers and their average rating",
-       x = NULL, y = NULL) +
+  labs(title = "Top Eight Publishers",
+       x = "Number of Books", y = NULL) +
   guides(fill = "none")
 ```
 
-![](proposal_files/figure-gfm/books-of-publisher-sum-1.png)<!-- -->
+<img src="proposal_files/figure-gfm/books-of-publisher-sum-1.png" alt="Horizontal Bar Graph showing the number of books per the top 8 publishing companies. The highest number of books per publisher is Less Than Three Press with 19 books, the lowest is Tor Books with 7."  />
+
+``` r
+ggsave(filename = "top-publishers.png", width = 10, height = 8)
+
+#Won't be using this in presentation
+```
 
 #### Check missing data
 
@@ -502,12 +618,22 @@ vis_miss(queer_books_genre)
 ![](proposal_files/figure-gfm/missing-data-1.png)<!-- -->
 
 ``` r
+ggsave(filename = "missing-data-all.png", width = 10, height = 8)
+
+#Won't be using this in presentation
+```
+
+``` r
 queer_books_genre %>% 
   as_shadow_upset() %>% 
   upset()
 ```
 
 ![](proposal_files/figure-gfm/check-na-shadow-1.png)<!-- -->
+
+``` r
+#Won't be using this in presentation
+```
 
 #### Genres’ average rating
 
@@ -520,13 +646,18 @@ all_book_genre %>%
   ggplot(aes(x = fct_rev(fct_infreq(all_genre)), fill = rating_categories)) +
   geom_bar() +
   coord_flip() +
-  scale_fill_viridis_d() +
-  labs(title = "Genres' average rating",
-       x = "genre",
-       fill = "average rating")
+  scale_fill_viridis_d("Average Rating") +
+  labs(title = "Average Rating per Genre",
+       subtitle = "Organised by Binding Format",
+       x = "Genre",
+       y = "Number of Books")
 ```
 
-![](proposal_files/figure-gfm/genre-rating-1.png)<!-- -->
+<img src="proposal_files/figure-gfm/genre-rating-1.png" alt="Horizontal bar graph showing the number of books per genre, color-coded by Average Rating. The highest number is romance, with ratings 5, 4 and 3. The lowest is lowest is intersexual with ratings 3 and 4. There is only one rating of 5 within the genres of romance and lesbian, and the one rating of 2 in the asexual and fantasy genres."  />
+
+``` r
+ggsave(filename = "Genre-average-rating.png", width = 10, height = 8)
+```
 
 #### Books’ genre in each top publishers
 
@@ -540,12 +671,18 @@ books_publisher_genre %>%
   geom_bar() +
   coord_flip() +
   scale_fill_viridis_d() +
-  labs(title = "Books' genre of top publishers",
-       x = "genre",
-       fill = "publishers")
+  labs(title = "Genres within the Top Publishers",
+       x = "Genre",y = "Number of Books",
+       fill = "Top 8 Publishers")
 ```
 
-![](proposal_files/figure-gfm/top-publishers-genre-1.png)<!-- -->
+<img src="proposal_files/figure-gfm/top-publishers-genre-1.png" alt="Horizontal bar graph showing the genres within the top 8 publishing companies. The highest number of books per genre is fantasy with 48 books and has all the publishing companies. The lowest is polyamourous with 1, published by Less then Three Press"  />
+
+``` r
+ggsave(filename = "books-per-genre-top-publishers.png", width = 10, height = 8)
+
+#Won't be using this graph in the presentation
+```
 
 #### Books’ genre in each top publishers by rating
 
@@ -563,6 +700,10 @@ books_publisher_genre %>%
 
 ![](proposal_files/figure-gfm/top-publisher-genre-rating-1.png)<!-- -->
 
+``` r
+#Won't be using these graphs in the presentation
+```
+
 #### Visualise books’ average rating and number of rating in each year by genre (only top publishers’s books)
 
 ``` r
@@ -573,16 +714,16 @@ books_publisher_genre %>%
   scale_fill_viridis_d() +
   theme_ipsum() +
   labs(title = "Books' genre and average rating of top publisher",
-       x = "genre",
-       y = "publication year",
-       color = "average rating",
-       size = "number of rating")
+       x = "Genre",
+       y = "Year of Publication",
+       color = "Average Rating",
+       size = "Number of Reviews")
 ```
 
-![](proposal_files/figure-gfm/genre-toppublish-rating-1.png)<!-- -->
+<img src="proposal_files/figure-gfm/genre-toppublish-rating-1.png" alt="Bubble plot showing data from the top 8 publishers. Genre on x-axis, Year of publication of the y-axis. Colour of the bubbles is determined by the Rating (Lowest is 2, Highest is 4), and size of bubble is determined by Number of Revies. The largest bubbles are yellow (rating of 4), published in 2020 in the genres: fantasy, gay, mystery-thriller, queer, and romance. Second largest bubbles are blue (rating of 3), published in 2011 in the genres: fantasy, horror, queer, religio, and romance."  />
 
 ``` r
-ggsave(filename = "book_genre.png", width = 8, height = 6)
+ggsave(filename = "top-publishers-genre-rating-publicationyear.png", width = 10, height = 8)
 ```
 
 #### Visualise books’ average rating and number of rating in each year by genre (all the books)
@@ -594,18 +735,26 @@ all_book_genre %>%
   coord_flip() +
   scale_fill_manual(values = c("#ff5dbc", "#21928c", "#fde725", "#440154")) +
   theme_ipsum() +
-  labs(title = "Books' genre and average rating by year",
-       x = "genre",
-       y = "publication year",
-       fill = "average rating",
-       size = "number of rating") +
-  scale_size_continuous(range = c(2, 20))
+  labs(title = "Genre categorised by Rating and Number of Reviews",
+       subtitle = "Year of Publication",
+       x = "Genre",
+       y = "Year of Publication",
+       fill = "Average rating",
+       size = "Number of Reviews") +
+  scale_size_continuous(range = c(2, 25))
 ```
 
     ## Warning: Removed 5 rows containing missing values or values outside the scale range
     ## (`geom_point()`).
 
-![](proposal_files/figure-gfm/genre-rating-year-1.png)<!-- -->
+<img src="proposal_files/figure-gfm/genre-rating-year-1.png" alt="Bubble point graph showing all the data from the Queer Lit sample. Genre on the x-axis, publication year on the y-axis. Color of the bubble is determined by Average Rating (2 - 5), and the size of the bubble is by number of reviews from 1mil - 3 mil"  />
+
+``` r
+ggsave(filename = "all-data-bubble-graph.png", width = 12, height = 10)
+```
+
+    ## Warning: Removed 5 rows containing missing values or values outside the scale range
+    ## (`geom_point()`).
 
 ``` r
 book_genre %>% 
