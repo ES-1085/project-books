@@ -150,12 +150,12 @@ This project is supposed to represent the possibilities of analysis that can be 
 ## 4. Data analysis plan
 
 #### Correlation of average rating and number of rating
-```{r corelation-rating-numrating, fig.alt = "Point Hexagon graph showing the correlation between the average rating of a selection of 500 books to the number of ratings receieved, the average rating being between 3 - 4.5, and number of ratings going from 1, through to 3e+06 (3000,000). The highest rating received with the most number of ratings was 4.1. Dataset only includes 500 observations"}
+```{r correlation-rating-numrating, fig.alt = "Point Hexagon graph showing the correlation between the average rating of a selection of 500 books to the number of ratings receieved, the average rating being between 3 - 4.5, and number of ratings going from 1, through to 3e+06 (3 mil/3000,000). The highest rating received with the most number of ratings was 4.1. Dataset only includes 500 observations"}
 
 queer_books_data %>% 
   ggplot(aes( x = num_ratings, y = average_rating)) +
   geom_hex() +
-  scale_fill_viridis_b() +
+  scale_fill_viridis_b("Number of Books") +
   labs( title = "Correlation of average rating and number of rating",
         subtitle = "Goodread data from 1974 - 2024",
         x = "Number of rating",
@@ -163,6 +163,20 @@ queer_books_data %>%
 
 ggsave(filename = "rating_review_correlation.png", width = 10, height = 8)
 ```
+
+```{r correlation-rating-numrating-below-1mil}
+queer_books_data %>% 
+  ggplot(aes( x = num_ratings, y = average_rating)) +
+  geom_hex() +
+  scale_fill_viridis_b() +
+  labs( title = "Correlation of average rating and number of rating",
+        subtitle = "Goodread data from 1974 - 2024",
+        x = "Number of rating",
+        y = "Average rating")+
+  xlim(0, 1e+06)
+
+```
+
 
 #### Check correlation of top rating and number of rating
 
@@ -258,20 +272,22 @@ queer_books_data %>%
 queer_books_data %>%
   ggplot(aes( x = year_by_decade, fill = binding)) +
   geom_bar(alpha = 0.7) +
-  scale_fill_viridis_d() +
+  scale_fill_viridis_d("Binding Format") +
   labs(title = "Binding Format Frequency",
        subtitle = "by Decade",
        x = "Decade of Publication", y = "Number of Books") 
 ```
 
-```{r}
+```{r binding-frequency-orignal-decade, alt.fig = "Bar graph showing the number of books orignally published by decade from pre 1900s (<1900) to the 2020s, including NA. The order of number of queer books published from lowest to highest: 1930s, 1940s, 1910s, 1920s, <1900s, 1950s/1960s, 1970s, 1980s, NA, 1990s, 2020s, 2000s, and 2010s has the highest. Bar graph color-coded by types of book binding: ARC (Advanced Reader Copy), Audio CD, ebook, hardcover, Kindle edition, Kindle edition with audio, Mass-market paperback, MP3 CD, Paperback. Pre 1900s - 1970s only has Paperback and Hardcover, variety of binding format increases as decades progress. NA includes Paperback, Kindle, ebook and ARC. Dataset only contains 500 books."}
 queer_books_data %>%
   ggplot(aes( x = originalyear_by_decade, fill = binding)) +
   geom_bar(alpha = 0.7) +
-  scale_fill_viridis_d() +
+  scale_fill_viridis_d("Binding Format") +
   labs(title = "Binding Format Frequency",
        subtitle = "by Decade",
        x = "Decade of Publication", y = "Number of Books") 
+
+ggsave(filename = "binding_format_original_decade.png", width = 10, height = 8)
 ```
 
 
@@ -312,7 +328,7 @@ queer_books_data %>%
 #### Merge genre to primary dataset
 
 Try to make a similar graph for all the genre
-```{r book-genre-join}
+```{r book-genre-join, alt-fig = ""}
 book_genre <- book_genre %>% 
   select("title", "genre_1", "genre_2", "genre_3", "genre_4", "genre_5", "genre_6", "genre_7", "genre_8")
 
@@ -324,8 +340,10 @@ queer_books_genre %>%
   ggplot(aes(x = fct_rev(fct_infreq(genre_1)), fill = binding)) +
   geom_bar(alpha=0.7) +
   coord_flip() +
-  scale_fill_viridis_d() +
-  labs( x = "genre")
+  scale_fill_viridis_d("Binding Format") +
+  labs( title = "Number of Books per Genre",
+        subtitle = "by Binding Format",
+        x = "Genre Type", y = "Number of Books")
 ```
 
 #### Categorise the average rating
