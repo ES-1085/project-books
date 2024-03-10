@@ -32,9 +32,11 @@ Examining the general relation between reviews and rating from the Goodreads rat
 
 Queer_books-data - https://docs.google.com/spreadsheets/d/11cubO21f_MJb85e4IrpsaNH9Sm4-6B8-kL2CnUNGGdE/edit  
 Kandi Grey Queer Lit Shelf - https://www.goodreads.com/review/list/59261401-kandi-grey?shelf=queer-books_all 
+*Data exported on 29th February 2024
 
 The variables include id (Id number of book from), Title, Author (Last name, First name), Additional Authors, ISBN, ISBN13, Average Rating ( 1- 5), Num Rating (Number of Ratings), Publisher, Binding (Paperback, Hardcover, eBook, ect), Number of Pages, Year Published, Original Publication Year, Exclusive Shelf (File name). 
 500 observations have been recorded. 
+
 Goodreads is a site and a tool used by people to categorise books they have written and read. Goodreads has different ways to help users categorise books; I created a ‘bookshelf’ to collect books from Lists that other Goodreads users supplied. I collected the top 500 from several Queer Literature lists to create the dataset we are using. Using this data, we can examine the correlation between the Average Rating and the Number of Reviews received, if the Binding method is related to the year published, if there is a common publisher for Queer literature. 
 Possible Further Study: Examining the relation to genre within Queer Literature. The differences across the queer spectrum.
 
@@ -327,7 +329,7 @@ queer_books_data %>%
   geom_bar(alpha = 0.7) +
   scale_fill_viridis_d("Binding Format") +
   labs(title = "Binding Format Frequency",
-       subtitle = "by Orignal Decade of Publication",
+       subtitle = "by Original Decade of Publication",
        x = "Original Decade of Publication", y = "Number of Books") 
 
 ggsave(filename = "binding_format_original_decade.png", width = 12, height = 8)
@@ -503,7 +505,7 @@ books_publisher_genre %>%
 
 #### Visualise books' average rating and number of rating in each year by genre (only top publishers's books)
 
-```{r genre-toppublish-rating, fig.alt= "Bubble plot showing data from the top 8 publishers. Genre on x-axis, Year of publication of the y-axis. Colour of the bubbles is determined by the Rating (Lowest is 2, Highest is 4), and size of bubble is determined by Number of Revies. The largest bubbles are yellow (rating of 4), published in 2020 in the genres: fantasy, gay, mystery-thriller, queer, and romance. Second largest bubbles are blue (rating of 3), published in 2011 in the genres: fantasy, horror, queer, religio, and romance."}
+```{r genre-toppublish-rating, fig.alt= "Bubble plot showing data from the top 8 publishers. Year of publication on x-axis, genres on the y-axis. Colour of the bubbles is determined by the Rating (Lowest is 2, Highest is 4), and size of bubble is determined by Number of Revies. The largest bubbles are yellow (rating of 4), published in 2020 in the genres: fantasy, gay, mystery-thriller, queer, and romance. Second largest bubbles are blue (rating of 3), published in 2011 in the genres: fantasy, horror, queer, religio, and romance."}
 books_publisher_genre %>% 
   ggplot(aes(x = all_genre, y = year_published, size = num_ratings, fill = rating_categories)) +
   geom_point(alpha=0.7, shape = 21, color = "black") +
@@ -521,7 +523,7 @@ ggsave(filename = "top-publishers-genre-rating-publicationyear.png", width = 10,
 
 #### Visualise books' average rating and number of rating in each year by genre (all the books)
 
-```{r genre-rating-year, fig.alt="Bubble point graph showing all the data from the Queer Lit sample. Genre on the x-axis, publication year on the y-axis. Color of the bubble is determined by Average Rating (2 - 5), and the size of the bubble is by number of reviews from 1mil - 3 mil"}
+```{r genre-rating-year, fig.alt="Bubble point graph showing all the data from the Queer Lit sample. Year of publication on the x-axis, list of genre on the y-axis. Color of the bubble is determined by Average Rating (2 - 5), and the size of the bubble is by number of reviews from 1mil - 3 mil"}
 all_book_genre %>% 
   ggplot(aes(x = all_genre, y = year_published, size = num_ratings, fill = rating_categories)) +
   geom_point(alpha=0.7, shape = 21, color = "black") +

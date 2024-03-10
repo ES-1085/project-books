@@ -34,23 +34,25 @@ Queer_books-data -
 <https://docs.google.com/spreadsheets/d/11cubO21f_MJb85e4IrpsaNH9Sm4-6B8-kL2CnUNGGdE/edit>  
 Kandi Grey Queer Lit Shelf -
 <https://www.goodreads.com/review/list/59261401-kandi-grey?shelf=queer-books_all>
+\*Data exported on 29th February 2024
 
 The variables include id (Id number of book from), Title, Author (Last
 name, First name), Additional Authors, ISBN, ISBN13, Average Rating ( 1-
 5), Num Rating (Number of Ratings), Publisher, Binding (Paperback,
 Hardcover, eBook, ect), Number of Pages, Year Published, Original
 Publication Year, Exclusive Shelf (File name). 500 observations have
-been recorded. Goodreads is a site and a tool used by people to
-categorise books they have written and read. Goodreads has different
-ways to help users categorise books; I created a ‘bookshelf’ to collect
-books from Lists that other Goodreads users supplied. I collected the
-top 500 from several Queer Literature lists to create the dataset we are
-using. Using this data, we can examine the correlation between the
-Average Rating and the Number of Reviews received, if the Binding method
-is related to the year published, if there is a common publisher for
-Queer literature. Possible Further Study: Examining the relation to
-genre within Queer Literature. The differences across the queer
-spectrum.
+been recorded.
+
+Goodreads is a site and a tool used by people to categorise books they
+have written and read. Goodreads has different ways to help users
+categorise books; I created a ‘bookshelf’ to collect books from Lists
+that other Goodreads users supplied. I collected the top 500 from
+several Queer Literature lists to create the dataset we are using. Using
+this data, we can examine the correlation between the Average Rating and
+the Number of Reviews received, if the Binding method is related to the
+year published, if there is a common publisher for Queer literature.
+Possible Further Study: Examining the relation to genre within Queer
+Literature. The differences across the queer spectrum.
 
 Vocabulary Definitions: Queer: does not fall under the
 heterosexual/romantic spectrum, i.e. falls under the LGBTQIA+ spectrum
@@ -256,11 +258,9 @@ queer_books_data %>%
   xlim(0, 1e+06)
 ```
 
-    ## Warning: Removed 8 rows containing non-finite outside the scale range
-    ## (`stat_binhex()`).
+    ## Warning: Removed 8 rows containing non-finite values (`stat_binhex()`).
 
-    ## Warning: Removed 17 rows containing missing values or values outside the scale range
-    ## (`geom_hex()`).
+    ## Warning: Removed 17 rows containing missing values (`geom_hex()`).
 
 <img src="proposal_files/figure-gfm/correlation-rating-numrating-below-1mil-1.png" alt="Point Hexagon graph showing the correlation between the average rating of a selection of 500 books to the number of ratings receieved, the average rating being between 3 - 4.5, and number of ratings going from 1, through to 1000000 (1 mil). The highest rating received with the most number of ratings was 3.5 and 4. Dataset only includes 500 observations"  />
 
@@ -268,9 +268,8 @@ queer_books_data %>%
 ggsave(filename = "rating_review_correlation-below-1mil.png", width = 10, height = 8)
 ```
 
-    ## Warning: Removed 8 rows containing non-finite outside the scale range (`stat_binhex()`).
-    ## Removed 17 rows containing missing values or values outside the scale range
-    ## (`geom_hex()`).
+    ## Warning: Removed 8 rows containing non-finite values (`stat_binhex()`).
+    ## Removed 17 rows containing missing values (`geom_hex()`).
 
 ``` r
 #Won't be using this graph in the presentation - is there for clarification if necessary
@@ -339,8 +338,7 @@ top_bottom_ten %>%
        color = "Rating group")
 ```
 
-    ## Warning: Removed 4 rows containing missing values or values outside the scale range
-    ## (`geom_point()`).
+    ## Warning: Removed 4 rows containing missing values (`geom_point()`).
 
 <img src="proposal_files/figure-gfm/zoom-in-visualise-low-high-rating-1.png" alt="Scatterplot showing correlation between average rating and number of reviews for the top and bottom average rating from the Queer Lit Sample data frame. The graph has 16 points, with the highest rating being 5 and the lowest 2.8. Is focused on books that recieved less than 1000 reviews. Both the highest rate and lowest rated recieved less than 100 reviews."  />
 
@@ -348,8 +346,7 @@ top_bottom_ten %>%
 ggsave(filename = "top-bottom-correlation-below-1000reviews.png", width = 10, height = 6)
 ```
 
-    ## Warning: Removed 4 rows containing missing values or values outside the scale range
-    ## (`geom_point()`).
+    ## Warning: Removed 4 rows containing missing values (`geom_point()`).
 
 ``` r
 Top_ten_ave %>% 
@@ -427,7 +424,7 @@ queer_books_data %>%
        y = "Number of Books")
 ```
 
-    ## Warning: The following aesthetics were dropped during statistical transformation: fill.
+    ## Warning: The following aesthetics were dropped during statistical transformation: fill
     ## ℹ This can happen when ggplot fails to infer the correct grouping structure in
     ##   the data.
     ## ℹ Did you forget to specify a `group` aesthetic or to convert a numerical
@@ -447,11 +444,11 @@ queer_books_data %>%
   geom_bar(alpha = 0.7) +
   scale_fill_viridis_d("Binding Format") +
   labs(title = "Binding Format Frequency",
-       subtitle = "by Decade",
-       x = "Decade of Publication", y = "Number of Books") 
+       subtitle = "by Decade Republished In",
+       x = "Republished Decade of Publication", y = "Number of Books") 
 ```
 
-<img src="proposal_files/figure-gfm/change-binding-dacade-1.png" alt="Bar graph showing the number of books published by decade from the 70s, to the 2020s. The order of number of queer books published from lowest to highest: 1970s, NA, 1980s, 1990s, 2020s, 2000s, and 2010s has the highest number of books. Bar graph color-coded by types of book binding: ARC, Audio CD, ebook, hardcover, Kindle edition, Kindle edition with audio, Mas market paperback, MP3 CD, Paperback,  Dataset only contains 500 books."  />
+![](proposal_files/figure-gfm/change-binding-dacade-1.png)<!-- -->
 
 ``` r
 ggsave(filename = "binding-format-decade.png", width = 12, height = 8)
@@ -465,8 +462,8 @@ queer_books_data %>%
   geom_bar(alpha = 0.7) +
   scale_fill_viridis_d("Binding Format") +
   labs(title = "Binding Format Frequency",
-       subtitle = "by Decade",
-       x = "Decade of Publication", y = "Number of Books") 
+       subtitle = "by Original Decade of Publication",
+       x = "Original Decade of Publication", y = "Number of Books") 
 ```
 
 <img src="proposal_files/figure-gfm/binding-frequency-orignal-decade-1.png" alt="Bar graph showing the number of books orignally published by decade from pre 1900s (&lt;1900) to the 2020s, including NA. The order of number of queer books published from lowest to highest: 1930s, 1940s, 1910s, 1920s, &lt;1900s, 1950s/1960s, 1970s, 1980s, NA, 1990s, 2020s, 2000s, and 2010s has the highest. Bar graph color-coded by types of book binding: ARC (Advanced Reader Copy), Audio CD, ebook, hardcover, Kindle edition, Kindle edition with audio, Mass-market paperback, MP3 CD, Paperback. Pre 1900s - 1970s only has Paperback and Hardcover, variety of binding format increases as decades progress. NA includes Paperback, Kindle, ebook and ARC. Dataset only contains 500 books."  />
@@ -488,8 +485,7 @@ queer_books_data %>%
        y = "Number of Books")
 ```
 
-    ## Warning: Removed 2 rows containing non-finite outside the scale range
-    ## (`stat_count()`).
+    ## Warning: Removed 2 rows containing non-finite values (`stat_count()`).
 
 <img src="proposal_files/figure-gfm/change-binding-years-1.png" alt="Bar graph showing number of books published per year and color-filled by binding format. The highest number of books was published in 2016, also has the widest variety of binding formats. Variety of binding formats increases across the graph"  />
 
@@ -497,8 +493,7 @@ queer_books_data %>%
 ggsave(filename = "binding-format-by-year.png", width = 12, height = 8)
 ```
 
-    ## Warning: Removed 2 rows containing non-finite outside the scale range
-    ## (`stat_count()`).
+    ## Warning: Removed 2 rows containing non-finite values (`stat_count()`).
 
 #### Filter book that got republished
 
@@ -720,7 +715,7 @@ books_publisher_genre %>%
        size = "Number of Reviews")
 ```
 
-<img src="proposal_files/figure-gfm/genre-toppublish-rating-1.png" alt="Bubble plot showing data from the top 8 publishers. Genre on x-axis, Year of publication of the y-axis. Colour of the bubbles is determined by the Rating (Lowest is 2, Highest is 4), and size of bubble is determined by Number of Revies. The largest bubbles are yellow (rating of 4), published in 2020 in the genres: fantasy, gay, mystery-thriller, queer, and romance. Second largest bubbles are blue (rating of 3), published in 2011 in the genres: fantasy, horror, queer, religio, and romance."  />
+<img src="proposal_files/figure-gfm/genre-toppublish-rating-1.png" alt="Bubble plot showing data from the top 8 publishers. Year of publication on x-axis, genres on the y-axis. Colour of the bubbles is determined by the Rating (Lowest is 2, Highest is 4), and size of bubble is determined by Number of Revies. The largest bubbles are yellow (rating of 4), published in 2020 in the genres: fantasy, gay, mystery-thriller, queer, and romance. Second largest bubbles are blue (rating of 3), published in 2011 in the genres: fantasy, horror, queer, religio, and romance."  />
 
 ``` r
 ggsave(filename = "top-publishers-genre-rating-publicationyear.png", width = 10, height = 8)
@@ -744,17 +739,21 @@ all_book_genre %>%
   scale_size_continuous(range = c(2, 25))
 ```
 
-    ## Warning: Removed 5 rows containing missing values or values outside the scale range
-    ## (`geom_point()`).
+    ## Warning: Removed 5 rows containing missing values (`geom_point()`).
 
-<img src="proposal_files/figure-gfm/genre-rating-year-1.png" alt="Bubble point graph showing all the data from the Queer Lit sample. Genre on the x-axis, publication year on the y-axis. Color of the bubble is determined by Average Rating (2 - 5), and the size of the bubble is by number of reviews from 1mil - 3 mil"  />
+<img src="proposal_files/figure-gfm/genre-rating-year-1.png" alt="Bubble point graph showing all the data from the Queer Lit sample. Year of publication on the x-axis, list of genre on the y-axis. Color of the bubble is determined by Average Rating (2 - 5), and the size of the bubble is by number of reviews from 1mil - 3 mil"  />
 
 ``` r
 ggsave(filename = "all-data-bubble-graph.png", width = 12, height = 10)
 ```
 
-    ## Warning: Removed 5 rows containing missing values or values outside the scale range
-    ## (`geom_point()`).
+    ## Warning: Removed 5 rows containing missing values (`geom_point()`).
+
+``` r
+ggsave(filename = "all-data-bubble-graph.jpeg", width = 12, height = 10)
+```
+
+    ## Warning: Removed 5 rows containing missing values (`geom_point()`).
 
 ``` r
 book_genre %>% 
