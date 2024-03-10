@@ -531,6 +531,7 @@ all_book_genre %>%
   scale_size_continuous(range = c(2, 25))
 
 ggsave(filename = "all-data-bubble-graph.png", width = 12, height = 10)
+ggsave(filename = "all-data-bubble-graph.jpeg", width = 12, height = 10)
 ```
 
 
