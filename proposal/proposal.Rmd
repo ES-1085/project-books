@@ -220,7 +220,7 @@ top_bottom_ten <- top_bottom_ten %>%
 top_bottom_ten %>%   
   ggplot(aes(y = average_rating, x = num_ratings, group = high_and_low, color = high_and_low))+
   geom_point() +
-  scale_color_manual(values = c("#660066", "#ffcc00")) +
+  scale_color_manual(values = c("#ffcc00", "#660066")) +
   theme_ipsum() +
   labs(title = "Correlation between Average Rating and Number of Review",
        subtitle = "Comparison of Top and Bottom Average Ratings",
@@ -234,7 +234,7 @@ ggsave(filename = "top-bottom-correlation.png", width = 10, height = 6)
 top_bottom_ten %>%   
   ggplot(aes(y = average_rating, x = num_ratings, group = high_and_low, color = high_and_low))+
   geom_point() +
-  scale_color_manual(values = c("#660066", "#ffcc00")) +
+  scale_color_manual(values = c("#ffcc00", "#660066")) +
   theme_ipsum() +
   xlim(0,1000) +
    labs(title = "Correlation between Average Rating and Number of Review",
