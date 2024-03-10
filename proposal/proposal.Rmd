@@ -220,7 +220,7 @@ top_bottom_ten %>%
        color = "Rating group")
 ```
 
-```{r zoom-in-visualise-low-high-rating¢}
+```{r zoom-in-visualise-low-high-rating}
 top_bottom_ten %>%   
   ggplot(aes(y = average_rating, x = num_ratings, group = high_and_low, color = high_and_low))+
   geom_point() +
