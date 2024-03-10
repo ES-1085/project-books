@@ -34,23 +34,25 @@ Queer_books-data -
 <https://docs.google.com/spreadsheets/d/11cubO21f_MJb85e4IrpsaNH9Sm4-6B8-kL2CnUNGGdE/edit>  
 Kandi Grey Queer Lit Shelf -
 <https://www.goodreads.com/review/list/59261401-kandi-grey?shelf=queer-books_all>
+\*Data exported on 29th February 2024
 
 The variables include id (Id number of book from), Title, Author (Last
 name, First name), Additional Authors, ISBN, ISBN13, Average Rating ( 1-
 5), Num Rating (Number of Ratings), Publisher, Binding (Paperback,
 Hardcover, eBook, ect), Number of Pages, Year Published, Original
 Publication Year, Exclusive Shelf (File name). 500 observations have
-been recorded. Goodreads is a site and a tool used by people to
-categorise books they have written and read. Goodreads has different
-ways to help users categorise books; I created a ‘bookshelf’ to collect
-books from Lists that other Goodreads users supplied. I collected the
-top 500 from several Queer Literature lists to create the dataset we are
-using. Using this data, we can examine the correlation between the
-Average Rating and the Number of Reviews received, if the Binding method
-is related to the year published, if there is a common publisher for
-Queer literature. Possible Further Study: Examining the relation to
-genre within Queer Literature. The differences across the queer
-spectrum.
+been recorded.
+
+Goodreads is a site and a tool used by people to categorise books they
+have written and read. Goodreads has different ways to help users
+categorise books; I created a ‘bookshelf’ to collect books from Lists
+that other Goodreads users supplied. I collected the top 500 from
+several Queer Literature lists to create the dataset we are using. Using
+this data, we can examine the correlation between the Average Rating and
+the Number of Reviews received, if the Binding method is related to the
+year published, if there is a common publisher for Queer literature.
+Possible Further Study: Examining the relation to genre within Queer
+Literature. The differences across the queer spectrum.
 
 Vocabulary Definitions: Queer: does not fall under the
 heterosexual/romantic spectrum, i.e. falls under the LGBTQIA+ spectrum
@@ -447,11 +449,11 @@ queer_books_data %>%
   geom_bar(alpha = 0.7) +
   scale_fill_viridis_d("Binding Format") +
   labs(title = "Binding Format Frequency",
-       subtitle = "by Decade",
-       x = "Decade of Publication", y = "Number of Books") 
+       subtitle = "by Decade Republished In",
+       x = "Republished Decade of Publication", y = "Number of Books") 
 ```
 
-<img src="proposal_files/figure-gfm/change-binding-dacade-1.png" alt="Bar graph showing the number of books published by decade from the 70s, to the 2020s. The order of number of queer books published from lowest to highest: 1970s, NA, 1980s, 1990s, 2020s, 2000s, and 2010s has the highest number of books. Bar graph color-coded by types of book binding: ARC, Audio CD, ebook, hardcover, Kindle edition, Kindle edition with audio, Mas market paperback, MP3 CD, Paperback,  Dataset only contains 500 books."  />
+![](proposal_files/figure-gfm/change-binding-dacade-1.png)<!-- -->
 
 ``` r
 ggsave(filename = "binding-format-decade.png", width = 12, height = 8)
@@ -465,8 +467,8 @@ queer_books_data %>%
   geom_bar(alpha = 0.7) +
   scale_fill_viridis_d("Binding Format") +
   labs(title = "Binding Format Frequency",
-       subtitle = "by Decade",
-       x = "Decade of Publication", y = "Number of Books") 
+       subtitle = "by Original Decade of Publication",
+       x = "Original Decade of Publication", y = "Number of Books") 
 ```
 
 <img src="proposal_files/figure-gfm/binding-frequency-orignal-decade-1.png" alt="Bar graph showing the number of books orignally published by decade from pre 1900s (&lt;1900) to the 2020s, including NA. The order of number of queer books published from lowest to highest: 1930s, 1940s, 1910s, 1920s, &lt;1900s, 1950s/1960s, 1970s, 1980s, NA, 1990s, 2020s, 2000s, and 2010s has the highest. Bar graph color-coded by types of book binding: ARC (Advanced Reader Copy), Audio CD, ebook, hardcover, Kindle edition, Kindle edition with audio, Mass-market paperback, MP3 CD, Paperback. Pre 1900s - 1970s only has Paperback and Hardcover, variety of binding format increases as decades progress. NA includes Paperback, Kindle, ebook and ARC. Dataset only contains 500 books."  />
@@ -751,6 +753,13 @@ all_book_genre %>%
 
 ``` r
 ggsave(filename = "all-data-bubble-graph.png", width = 12, height = 10)
+```
+
+    ## Warning: Removed 5 rows containing missing values or values outside the scale range
+    ## (`geom_point()`).
+
+``` r
+ggsave(filename = "all-data-bubble-graph.jpeg", width = 12, height = 10)
 ```
 
     ## Warning: Removed 5 rows containing missing values or values outside the scale range
