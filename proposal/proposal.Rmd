@@ -224,7 +224,7 @@ top_bottom_ten %>%
   theme_ipsum() +
   labs(title = "Correlation between Average Rating and Number of Review",
        subtitle = "Comparison of Top and Bottom Average Ratings",
-       x = "Average Rating", y = "Number of Reviews",
+       x = "Number of Reviews", y = "Average Rating",
        color = "Rating group")
 
 ggsave(filename = "top-bottom-correlation.png", width = 10, height = 6)
@@ -239,7 +239,7 @@ top_bottom_ten %>%
   xlim(0,1000) +
    labs(title = "Correlation between Average Rating and Number of Review",
        subtitle = "Comparison of Top and Bottom Average Ratings",
-       x = "Average Rating", y = "Number of Reviews",
+       x = "Number of Reviews", y = "Average Rating",
        color = "Rating group")
 
 ggsave(filename = "top-bottom-correlation-below-1000reviews.png", width = 10, height = 6)
