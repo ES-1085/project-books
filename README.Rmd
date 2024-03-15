@@ -9,10 +9,14 @@ output: github_document
 Introduction: 
 “We are what we read.” 
 	~Bob Procter 
-Goodreads is a site and a tool used by people to categorise books they have written and read. Goodreads has different ways to help users categorise books; I (Kandi) created a ‘bookshelf’ to collect books from Lists that other Goodreads users supplied. Having collected a sample of 500 books from several Queer Literature lists to create the dataset we are using. 
+Goodreads is a site and a tool used by people to categorise books they have written and read. Goodreads has different ways to help users categorise books; Kandi created a ‘bookshelf’ to collect books from Lists that other Goodreads users supplied. Having collected a sample of 500 books from several Queer Literature lists to create the dataset we are using. Exported on Febraury 29th, 2024 - data may be subject to change after this date due to it being part of a personal account. 
 
 Goodreads is a site and a tool used by people to categorise books they have written and read. Goodreads has different ways to help users categorise books; the dataset is a ‘bookshelf’ I created to collect books from Lists that other Goodreads users supplied. The reason why we called it a sample is because there are only  500 books in this dataset. 500 books from the thousands that Goodreads has catalogued. Goodreads has a rating and review system. A book can receive a rating from 0 - 5 stars, and the site automatically calculates the average rating from the number of reviews it receives. To cross-examine the data, we also factored in other variables, such as year of publication, categorised genre, and binding formats. Using this data, we can examine the correlation between the Average Rating and the Number of Reviews received.
 But why queer literature specifically? The biggest reason is because representation matters. There has been an increase in literature released since the beginning of the century that isn’t just queer-coded but has openly explicitly open characters, authors and themes surrounding the LGBTQIA+ community. However, there is very little close analysis of this new era of literature. That is what this project is about - creating a starting point for a more close analysis of queer literature. 
+
+Approach:
+We began by just visualising the data in different ways using the variables: year of publication, which we turned into "Decade of Publication", Average Rating, and Number of Reviews. We followed this by looking at the correlation between the average rating and number of reviews. 
+We then began to ask ourselves how we could reframe the data, which brought us to analysising it through genre types, and binding formats. 
 
 Summary of our findings:
 
@@ -23,9 +27,27 @@ Gather a better and more inclusive dataset. Not only from Kandi's profile
 Include more variables such as language, region the book is based on, region of publication, author background (their connection with queer)
 
 
-```{r load-data, echo = FALSE}
-# load data here, if you like
+```{r load-data, echo = FALSE, glimpse-data-frame}
+glimpse(queer_books_data)
+glimpse(book_genre)
 ```
+
+```{r genre-rating-year, fig.alt="Bubble point graph showing all the data from the Queer Lit sample. Year of publication on the x-axis, list of genre on the y-axis. Color of the bubble is determined by Average Rating (2 - 5), and the size of the bubble is by number of reviews from 1mil - 3 mil"}
+all_book_genre %>% 
+  ggplot(aes(x = all_genre, y = year_published, size = num_ratings, fill = rating_categories)) +
+  geom_point(alpha=0.7, shape = 21, color = "black") +
+  coord_flip() +
+  scale_fill_manual(values = c("#ff5dbc", "#21928c", "#fde725", "#440154")) +
+  theme_ipsum() +
+  labs(title = "Genre categorised by Rating and Number of Reviews",
+       subtitle = "Year of Publication",
+       x = "Genre",
+       y = "Year of Publication",
+       fill = "Average rating",
+       size = "Number of Reviews") +
+  scale_size_continuous(range = c(2, 25))
+```
+
 
 ## Presentation
 
