@@ -33,9 +33,11 @@ Our presentation can be found through this link: https://docs.google.com/present
 
 ## Data 
 
-```{r load-data}
-queer_books_data <- read_excel("../data/queer-books_data.xlsx")
-book_genre <- read_excel("../data/data_genre (1).xlsx")
+```{r load-project-data}
+library(readxl)
+
+queer_books_data <- read_excel("./data/queer-books_data.xlsx")
+book_genre <- read_excel("./data/data_genre (1).xlsx")
 ```
 
 ## References
